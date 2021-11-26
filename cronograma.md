@@ -1,12 +1,14 @@
 # Cronograma (sujeto al ritmo del curso)
-Lunes 8 de marzo de 2021: Introducción a R y RStudio.
+29/11 Clase 1) Introducción a R y RStudio.
 
-Martes 9 de marzo de 2021: Introducción a R, continuación
+01/12 Clase 2) Introducción a R, continuación.
 
-Miércoles 10 de marzo de 2021: Introducción a la estadística descriptiva
+03/12 Clase 3) Estadística descriptiva. 
 
-Jueves 11 de marzo de 2021: Introducción a la inferencia estadística.
+06/12 Clase 4) Breve introducción a las pruebas de hipótesis (con R).
 
-Viernes 12 de marzo de 2021: Introducción a la regresión lineal
+07/12 Clase 5) Introducción a Machine learning: aprendizaje supervisado.
 
-[Programa del curso](https://a2b2c-cursos.github.io/analisis_de_datos_con_r_marzo_2021/programa.pdf)
+10/12 Clase 6) Introducción a Machine learning: aprendizaje no supervisado.
+
+[Programa del curso](https://a2b2c-cursos.github.io/analisis_de_datos_con_r_diciembre_2021/programa.pdf)
