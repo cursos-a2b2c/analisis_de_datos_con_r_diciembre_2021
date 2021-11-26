@@ -1,4 +1,4 @@
-[Presentación](https://a2b2c-cursos.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_0/presentacion.pdf)  
+[Presentación](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_0/presentacion.pdf)  
 
 ### Clase 1: Introducción a R y RStudio
 
