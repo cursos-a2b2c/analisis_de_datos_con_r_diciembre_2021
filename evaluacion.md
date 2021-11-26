@@ -4,6 +4,6 @@ Fecha de entrega límite: a definir
 
 Aclaraciones: Acá iremos subiendo las consultas y aclaraciones que nos soliciten.
 
-### Consignas de la evaluación y dataset nestlings
+### Consignas de la evaluación y datasets
 
 A definir

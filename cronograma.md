@@ -11,4 +11,4 @@
 
 10/12 Clase 6) Introducción a Machine learning: aprendizaje no supervisado.
 
-[Programa del curso](https://a2b2c-cursos.github.io/analisis_de_datos_con_r_diciembre_2021/programa.pdf)
+[Programa del curso](https://a2b2c-cursos.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_0/programa.pdf)
