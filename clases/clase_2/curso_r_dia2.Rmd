@@ -1,0 +1,260 @@
+---
+title: "Dia 2: Estructura de control y Funciones"
+author: "Maximiliano S. Beckel"
+date: "28/9/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Estructuras de control
+
+Las `estructuras de control` nos permiten controlar el flujo de ejecución de una secuencia de comandos. Así podremos aplicar, por ejemplo, una determinada acción a los distintos elementos de una tabla o un vector. En la clase de hoy nos vamos a concentrar en las estructuras de control más utilizadas en `R`: `if` y `for`
+
+
+#Condición `if ... else`
+
+La estructura `if ... else` nos permite realizar diferentes acciones dependiendo de si se cumple o no una determinada condición.
+
+A continuación, queremos saber si un determinado número es par o impar. Para esto le tenemos que "preguntar" al número si es par, en tal caso vamos a querer imprimir en pantalla "El número es par", de lo contrario será impar, por lo que imprimiremos "El número es impar". Para hacer esto usaremos como condición `numero%%2 == 0`. La expresión `%%` nos devuelve el resto de una división. En este caso, si el resto de dividir un número por 2 es igual a 0, eso nos quiere decir que es par, por lo que lo vamos a tomar como condición en nuestra estructura de control.
+
+```{r control1}
+numero = 10
+if (numero%%2 == 0){
+  print("El numero es par")
+}else{
+  print("El numero es impar")
+}
+
+```
+
+Esta es otra forma pero imprimiendo de otra manera los resultados (más fachero)
+```{r control2}
+numero = 10
+if (numero%%2 == 0){
+  print(paste("El numero", numero, "es par"))
+}else{
+  print(paste("El numero", numero, "es impar"))
+}
+
+```
+
+
+#Bucle `For`
+
+Los bucles for toman una variable a la que se le asignan los elementos de un objeto (en general, vectores o listas) en forma sucesiva a medida que se van recorriendo los ciclos.
+
+Vamos a usar un ejemplo: queremos saber cuánto vale la suma de los primeros 100 números naturales, para eso tenemos que tener una variable que vaya acumulando el resultado de la suma en cada iteracion (`n`),y otra variable que vaya recorriendo los números desde 1 hasta 100 (`i`)
+
+```{r control3}
+n=0
+for (i in 1:100){
+  n=n+i
+}
+print(n)
+```
+
+¿Hay alguna forma de hacer lo mismo sin utilizar un bucle?
+```{r control4}
+sum(1:100)
+```
+
+Vamos con un ejemplo un poco más complicado, que combine el uso de `ìf ... else` y `for`.
+Queremos guardar en una variable la suma de los números pares desde 1 a 100 y en otra variable la suma de los números impares. En este caso vamos a necesitar un `for` para ir recorriendo los distintos números del 1 al 100 y un `if ... else` que me permita evaluar si un número es par o impar.
+
+```{r control5}
+pares   = 0
+impares = 0
+
+for (i in 1:100){
+  if (i%%2 == 0)
+    pares = pares + i
+  else{
+    impares = impares +i
+  }
+}
+
+print(pares)
+print(impares)
+
+```
+
+¿Hay alguna forma de hacer lo mismo pero sin utilizar un `for` ni un `if ... else`?
+```{r control6}
+pares = sum(seq(2, 100, by = 2))
+print(pares)
+impares = sum(seq(1, 100, by = 2))
+print(impares)
+```
+
+
+## Funciones
+
+En `R` a demás de todas las funciones con las que contamos, podemos crear nosotros mismos nuevas funciones. Esto es particularmente útil cuando vayamos a querer aplicar el mismo análisis a diferentes conjuntos de datos.
+
+Vamos con un primer ejemplo sencillo para definir una función en `R`: queremos hacer una función que tome como argumentos dos números y me devuelva la suma entre ambos.
+
+```{r funcion1}
+sumar <- function(x, y){
+  suma <- x+y
+  return(suma)
+}
+
+```
+
+Una vez que creamos la función la podemos usarla con los números que nosotros querramos y asignar el resultado de la misma a una variable.
+```{r funcion2}
+sumar(2, 3)
+
+total <- sumar(2, 3)
+print(total)
+
+```
+
+Ahora podemos combinar las distintas cosas que fuimos viendo a lo largo de la clase. En el siguiente ejemplo queremos crear una función que sume todos los números desde 1 hasta algún determinado valor. Para esto vamos a utilizar un `for`
+```{r funcion3}
+sumar_hasta <- function(n){
+  suma_i <- 0
+  for(i in 1:n){
+    suma_i = suma_i + i
+  }
+  return(suma_i)
+}
+
+```
+
+Y ahora podemos utilizarla con el número que querramos
+```{r funcion4}
+sumar_hasta(100)
+sumar_hasta(872)
+
+```
+
+## Uso de paquetes en R
+
+Los paquetes en `R` son conjuntos de funciones o datos que expanden las posibilidades que tenemos de analizar nuestros datos. Para poder usarlos, en primer lugar tendremos que descargar a nuestra computadora el paquete, lo que puede hacerse con la función `install.packages()`. Una vez instalado, nuestro paquete quedará guardado en nuestra Biblioteca de paquetes. En el momento en el que nosotres querramos utilizar las funciones que nos provee un determinado paquete, tendremos que cargarlo en memoria para poder tenerlo a disposición. Esto se realiza con la función `library()`.
+En el siguiente ejemplo, instalamos y cargamos en memoria uno de los paquetes más utilizados para realizar bellos gráficos: `ggplot2`.
+
+```{r paquetes1}
+#install.packages("ggplot2")
+library(ggplot2)
+
+```
+
+`Bioconductor` es un repositorio de paquetes relacionados con el análisis de datos genómicos que contiene una gran cantidad de paquetes de gran ayuda a la hora de analizar datos de biología molecular en general.
+A continuación, vamos a instalar `Bioconductor` y, luego, uno de los paquetes que nos ofrece llamado `Biostrings`, que es de gran ayuda a la hora de analizar secuencias biológicas, como ADN, ARN y proteínas.
+```{r paquetes2} 
+#install.packages("BiocManager")
+
+#BiocManager::install("Biostrings")
+
+```
+
+Ahora vamos a ver algunas de las cosas que uno puede hacer con las funciones que tiene `Biostrings`. El primer paso es cargar el paquete en memoria
+```{r paquetes3} 
+library(Biostrings)
+```
+
+Creamos una secuencia de ADN al azar de una longitud de 30pb. Para esto utilizamos la función `sample` para elegir 30 nucleótidos al azar, con esto tendremos un vector con 30 elementos al cual vamos a querer colapsar en una única secuencia, lo que haremos con la función `paste`:
+```{r paquetes4} 
+nucleotidos_azar <- sample(c("A","G", "T", "C"), 30, replace = T)
+print(nucleotidos_azar)
+seq1 <- paste(nucleotidos_azar, collapse = "")
+print(seq1)
+```
+
+Comencemos a utilizar las funciones que nos da `Biostrings`. A la secuencia que creamos en el paso anterior la tenemos que convertir en un nuevo objeto que pueda ser entendido por las funciones que usemos de ahora en más como una secuencia de ADN:
+```{r paquetes5} 
+dna1 <- DNAString(seq1)
+print(dna1)
+class(dna1)
+```
+
+Algunas de las cosas que podremos hacer con nuestra secuencia son: conocer la secuencia inversa complementaria (con la función `reverseComplement()`), saber qué proteína se puede codificar a partir de nuestra secuencia de ADN (con la función `translate()`), o calcular la frecuencia de cada nucleótido (con `alphabetFrequency()`) o, incluso, subsecuencias en mi secuencia (con `letterFrequency()`)
+```{r paquetes6} 
+reverseComplement(dna1)
+translate(dna1)
+alphabetFrequency(dna1)
+letterFrequency(dna1, letters = "GC", as.prob = T)
+```
+
+También podemos trabajar con conjuntos de secuencias. En el siguiente ejemplo, vamos a crear 5 secuencias al azar y las vamos a poner en un vector utilizando un bucle `for`. El objetivo final será realizar un alineamiento múltiple entre estas secuencias.
+
+```{r paquetes7} 
+secuencias <- c() #creamos un vector vacío en el cual vamos a ir incluyendo las secuencias
+
+for(i in 1:5){ #i va a ser el indice de nuestro vector con el que vamos a ir agregando las secuencias
+  nucleotidos_nuevos <- sample(c("A", "G", "T", "C"), size = 30, replace = T) #elijo al azar los nucleótidos que van a formar la secuencia
+  seq_nueva <- paste(nucleotidos_nuevos, collapse = "") #colapso en una única secuencia el vector de nucleótidos
+  secuencias[i] <- seq_nueva #agrego la secuencia nueva al vector de secuencias
+}
+
+print(secuencias)
+
+```
+
+Ahora para poder trabajar con estas secuencias vamos tener que convertirlas en secuencias de ADN como las entienden las funciones de `Biostrings`. Noten que no es la misma función que usamos antes, eso es porque ahora tenemos más de una secuencia.
+```{r paquetes8} 
+dna_secuencias <- DNAStringSet(secuencias)
+```
+
+Podemos hacer el mismo análisis que hicimos al principio con seq1
+```{r paquetes9}
+reverseComplement(dna_secuencias)
+translate(dna_secuencias)
+alphabetFrequency(dna_secuencias)
+letterFrequency(dna_secuencias, letters = "GC", as.prob = T)
+
+```
+
+Finalmente, vamos a poder hacer un alineamiento múltiple de estas secuencias. Para realizarlo vamos a tener que utilizar un nuevo paquete que se llama `DECIPHER`. Por lo que, al igual que antes, vamos a tener que instalar el paquete y cargarlo en memoria.
+```{r paquetes10} 
+#BiocManager::install("DECIPHER")
+library(DECIPHER)
+```
+
+La funcion `AlignSeqs` es la que me va a permitir realizar el alineamiento múltiple 
+```{r paquetes11} 
+msa <- AlignSeqs(dna_secuencias)
+print(msa)
+```
+
+La misma función nos permite cambiar un monton de parámetros que van a determinar el resultado que obtendremos. En el siguiente ejemplo, hago que en el alineamiento sea "más fácil" partir las secuencias:
+```{r paquetes12} 
+msa2 <- AlignSeqs(dna_secuencias, gapOpening = -5)
+print(msa2)
+```
+
+
+## Importar y exportar datos en R
+Poder cargar en R nuestros datos es el primer paso que vamos a tener que hacer en la mayor parte de los casos, al igual que vamos a querer exportar nuestros datos en algún archivo que pueda ser leido por alguien que no sepa usar `R` (porque no hizo este curso).
+Dependiendo de cuál es el formato de los archivos que querramos importar/exportar vamos a tener que usar distintas funciones. 
+
+Vamos a retomar el ejemplo de la clase pasada. Queremos guardar la tabla filtrada del experimento de las plantas en un formato que pueda ser abierto en un Excel, en este caso un .csv (comma separated values)
+```{r importar1} 
+plantas <- PlantGrowth
+plantas_filtadas <- plantas[plantas$weight > 5.5 | plantas$weight < 4.5, ]
+
+#write.csv(x = plantas_filtadas, file = "plantas_filtradas.csv")
+```
+
+Por otro lado, se pueden guardar objetos de R para poder usarlos más tarde en una nueva sesión. A continuación guardamos en un archivo con la extensión `.RData`, los dos alineamientos múltiples que generamos anteriormente:
+```{r importar2} 
+#save(msa, msa2, file = "alineamientos.RData")
+
+```
+Y cuando querramos volver a cargar en una nueva sesión de `R`, solo tendremos que usar la función `load()`:
+```{r importar3} 
+#load("alineamientos.RData")
+
+```
+
+Para importar datos hacia una sesión de `R` también es muy sensillo y dependerá del tipo de archivo que sea: .csv, .txt, .fasta, etc. 
+Veamos un ejemplo cargando la tabla que acabamos de exportar:
+```{r importar4} 
+#tabla_plantas <- read.csv("plantas_filtradas.csv")
+```
+
+La clase que viene vamos a ver cómo podemos realizar una exploración estadística de nuestros datos con `R`.

@@ -1,0 +1,274 @@
+---
+title: "Dia 1: Elementos básicos de R"
+author: "Maximiliano S. Beckel"
+date: "28/9/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Primeros pasos
+
+R es un lenguaje de programación pensado especialmente para analizar datos.
+
+En el dia de hoy vamos a comenzar viendo los elementos basicos de la sintaxis de R. Empecemos con un primer ejemplo: Entre las muchas cosas que podemos con R, lo podemos usar como si fuera una calculadora.
+
+
+```{r pasos1}
+2+10
+315/7
+89*3
+sqrt(99225)
+21^pi
+1 == 1
+1 == 2
+1 != 2
+```
+
+En un script siempre vamos a querer hacer distintos comentarios que facilite entender el código a cualquier persona que lo lea, en `R` esto se hace anteponiendo el símbolo `#`
+```{r pasos2}
+2+10
+#2+10
+```
+## Tipos de datos
+
+En R todo el tiempo vamos a estar trabajando con datos, por lo cual una de las primeras cosas que debemos hacer es crear los distintos "objetos" que van a contener nuestros datos. Por ejemplo podemos crear un objeto que se llame  "cursos" y que contenga el numero de cursos que se van a dar en la Escuelita de Bioinformatica.
+
+```{r datos1}
+cursos <- 3
+print(cursos)
+cursos
+```
+
+En R hay varios tipos de objetos: numeric, integer, character, logical, ... Para saber de que clase es un objetos podemos usar la funcion class.
+
+```{r datos2}
+class(cursos)
+```
+
+Si no sabemos como usar una funcion y queremos saber mas sobre los parametros que necesita y el output que devuelve, podemos usar ? antepuesto al nombre de la funcion para obtener toda la informacion que necesitamos
+```{r datos3}
+#?class
+```
+
+Con los objetos en R se pueden realizar una gran cantidad de operaciones. Por ejemplo, imaginen que en la segunda parte del ano damos 2 cursos mas, ahora podriaamos crear un segundo objeto cursos2.
+```{r datos4}
+cursos2 <- 2
+```
+
+Si lo que queremos es a partir de los dos objetos anteriores saber cuantos cursos de Bioinformatica se dieron en el ano podemos simplemente sumar los objetos "cursos" y "cursos2"
+```{r datos5}
+cursos + cursos2
+
+```
+
+Tambien podemos guardar el resultado de cualquier función en un nuevo objeto
+```{r datos6}
+cursos_totales <- cursos + cursos2
+cursos_totales
+```
+
+Por otro lado, podemos convertir los objetos en R de una clase a otra, aunque con algunas excepciones....
+
+```{r datos7}
+as.integer(cursos_totales)
+as.character(cursos_totales)
+as.logical(cursos_totales)
+```
+
+¿Todas estas transformaciones de un tipo de dato a otro tienen sentido? ¡No! Por ejemplo, si intentamos transformar un número en un booleano (True o False) R va a entender que el 0 es igual a False y cualquier otro número es igual a True, pero esto en la mayoría de los casos no tiene sentido. Por lo que tenemos que tener mucho cuidado a la hora de convertir los objetos de una clase a otra.
+
+
+Para representar la ausencia de un dato, R utiliza el valor `NA` (not available)
+
+```{r datos8}
+NA
+
+NA == NA #¿NA es igual a NA?
+```
+
+Y cuando se ejecuta alguna operación que no tiene sentido, R devuelve el valor `NaN` (not a number) 
+
+```{r datos9}
+0/0
+Inf - Inf
+```
+
+
+## Estructuras de Datos
+
+La mayor parte del tiempo no nos va a alcanzar con trabajar con datos individuales, sino que vamos a tener que lidiar con tablas de datos, listas, etc. A esto lo llamamos `Estructuras de datos`. 
+
+```{r estructura1}
+cursos <- c("Linux", "Python", "R")
+cursos
+horas  <- c(8, 12, 20)
+horas
+```
+
+De la misma manera que podemos realizar calculos con numeros también lo podemos hacer con vectores
+
+```{r estructura2}
+horas + 2
+2*horas
+horas +c(1, 2, 3, 4)
+```
+
+Los vectores solo aceptan que todos los elementos que sean guardados en los mismos sean de la misma clase.
+
+```{r estructura3}
+cs <- c("Linux", "Python", "R", 2)
+cs
+class(cursos)
+```
+
+En cambio, las listas nos permiten contener elementos de diferentes clases en el mismo objeto.
+
+```{r estructura4}
+cs <- list("Linux", "Python", "R", 2)
+class(cs[1])
+class(cs[[1]]) #¿De que clase es el primer elemento de la lista?
+class(cs[[4]]) #¿De que clase es el cuarto elemento de la lista?
+```
+(Por ahora no se preocupen por esos parentesis horribles)
+
+En `R` tambien encontramos estructuras de datos que son de dos dimensiones que nos van a permitir trabajar con tablas (a las que vamos a llamar data frames) y matrices.
+
+A partir de los dos vectores que creamos anteriormente vamos a generar un data frame
+
+```{r estructura5}
+cursos
+horas
+carga_horaria <- data.frame(cursos, horas)
+carga_horaria
+```
+
+Existen distintas funciones que nos van a permitir obtener informacion sobre las tablas que creamos
+```{r estructura6}
+class(carga_horaria)
+str(carga_horaria)       #la funcion str nos permite analizar la estructura de los datos
+dim(carga_horaria)       #dim devuelve las dimensiones del data.frame
+colnames(carga_horaria)  #colnames nos devuelve los nombres de las columnas, de forma similar existe rownames
+```
+
+También podemos agregar mas columnas o filas a un dataframe
+```{r estructura7}
+profes <- c("eli", "javi", "andres")
+
+carga_horaria <- cbind(carga_horaria, profes) #fijense que estoy pisando la variable vieja agregando una nueva columna
+                                              #de forma similar puedo agregar filas con rbind 
+carga_horaria
+```
+
+Las matrices de forma similar a los vectores, solo van a permitir contener un solo tipo de dato
+```{r estructura8}
+v      <- seq(1, 9)
+
+m1     <- matrix(data = v, nrow = 3, ncol = 3, byrow = TRUE)
+m1
+m2     <- matrix(data = v, nrow = 3, ncol = 3, byrow = F)
+m2
+```
+
+## Subsetting
+Cuando trabajamos con estructuras de datos, nos va a interesar quedarnos con determinados elementos de esa tabla, matriz o vector. A eso vamos a llamarlo `subsetting`.
+
+Vamos a trabajar con una tabla de datos que ya viene cargada en R para que podamos jugar y que se llama `PlantGrowth`, la cual contiene los datos de peso seco de plantas crecidas bajo distintas condiciones.
+
+```{r sub1}
+plantas <- PlantGrowth #voy a renombrar la tabla como "plantas"
+```
+
+Primero veamos como esta compuesta la tabla
+```{r sub2}
+head(plantas)         #nos muestra las primeras filas del dataset
+colnames(plantas)
+dim(plantas)
+str(plantas)          
+
+```
+
+Ahora nos vamos a enfrentar con un tipo de estructura de datos que no vimos en la sección anterior: los factores. Un `factor` es una clase de estructura de datos similar a un vector que se reserva para asignar variables cualitativas.
+`levels` son los distintos valores que pueden tomar los elementos dentro del objeto factor, en este caso son los distintos tratamiento a los que se sometieron las plantas.
+```{r sub3}
+class(plantas$group)
+levels(plantas$group)
+```
+
+Existen diferentes formas de hacer subsetting sobre una tabla. A continuación se muestran distintas maneras de hacer lo mismo: quedarnos con los datos correspondientes a la columna llamada `weight`
+```{r sub4}
+plantas$weight       #imprimir en pantalla la primera columna del dataset
+plantas[, 1]         #otra forma de hacer lo mismo
+plantas[, "weight"]  #y otra mas...
+
+```
+
+Como las tablas tienen dos dimensiones, para poder obtener un determinado valor de la misma vamos a tener que especificar en que fila y en que columna se encuentra. Por ejemplo, si queremos obtener el valor que se encuentra en la fila 15 y en la columna 1, tendríamos que hacer lo siguiente:
+```{r sub5}
+plantas[15, 1]
+```
+
+Como hago si quiero que me muestre en pantalla solamente las filas que corresponden al tratamiento 2? Con la función `which` le puedo preguntar cuales son las filas en las que en la columna "group" el valor sea igual a "trt2". Incluso puedo hacerlo sin la necesidad de usar `which`.
+```{r sub6}
+which(plantas$group == "trt2")
+plantas[which(plantas$group == "trt2"), ]
+plantas$group == "trt2"
+plantas[plantas$group == "trt2", ]
+```
+
+¿Y si quiero que me muestre las plantas que pesan mas que 5.5?
+```{r sub7}
+plantas[plantas$weight > 5.5, ]
+```
+
+También puedo combinar distintas preguntas utilizando conectores lógicos. Por ejemplo, si quiero quedarme con las filas cuyo peso es mayor a 5.5 y que pertenecen al tratamiento 2 puedo utilizar el simbolo `&`
+```{r sub8}
+plantas[plantas$weight > 5.5 & plantas$group == "trt2", ]
+```
+
+O si quiero quedarme con las filas cuyos pesos sean o mayores a 5.5 o menores 4.5 podemos usar el simbolo `|`
+```{r sub9}
+plantas[plantas$weight > 5.5 | plantas$weight < 4.5, ]
+```
+
+Recuerden que todos resultados que vamos generando podemos guardarlos en un nuevo objeto para seguir trabajando con ellos más tarde.
+```{r sub10}
+plantas2 <- plantas[plantas$weight > 5.5 & plantas$group == "trt2", ]
+```
+
+Ahora vamos a ver como se subsetea una `lista`. En las listas, al poder contener objetos muy variados, hay que tener ciertas consideraciones a la hora de subsetear.
+```{r sub11}
+plantas2 <- plantas[plantas$weight > 5.5 & plantas$group == "trt2", ]
+```
+
+Ahora vamos a ver como se subsetea una `lista`. En las listas, al poder contener objetos muy variados, hay que tener ciertas consideraciones a la hora de subsetear.
+En el siguiente ejemplo creamos una lista que va a tener 3 elementos: los primeros dos son characters, pero el 3er elemento es un vector. Vamos a ver como obtener los distintos datos contenidos en esta lista
+
+```{r sub12}
+tecnicas_BioMol <- list("Southern", "Western" , c("Northern", "RNASeq", "RTPCR"))
+
+length(tecnicas_BioMol)     #Cuantos elementos tiene la lista? Â¿por quÃ©?
+
+tecnicas_BioMol[1]          #quiero imprimir el primer elemento de la lista...
+class(tecnicas_BioMol[1])   #pero...
+
+tecnicas_BioMol[[1]]        #Cual es la diferencias con el paso anterior?
+class(tecnicas_BioMol[[1]])
+
+tecnicas_BioMol[[3]]        #Que ocurre cuando tengo un vector dentro de una lista?
+
+tecnicas_BioMol[[3]][2]     #Para llegar al elemento que se encuentra en la 2da posicion en la lista
+
+```
+
+También puedo nombrar a cada elemento de la lista y usarlos para subsetear
+```{r sub13}
+tecnicas_BioMol <- list(DNA = "Southern", Proteinas = "Western" , RNA = c("Northern", "RNASeq", "RTPCR"))
+
+tecnicas_BioMol$RNA
+
+```
+
+Ahora que ya sabemos qué tipos de datos nos podemos encontrar en R y comó acceder a la informacion que contienen, en la clase que viene vamos a comenzar a ver cómo analizarlos.
