@@ -152,82 +152,6 @@ A continuación, vamos a instalar `Bioconductor` y, luego, uno de los paquetes q
 
 ```
 
-Ahora vamos a ver algunas de las cosas que uno puede hacer con las funciones que tiene `Biostrings`. El primer paso es cargar el paquete en memoria
-```{r paquetes3} 
-library(Biostrings)
-```
-
-Creamos una secuencia de ADN al azar de una longitud de 30pb. Para esto utilizamos la función `sample` para elegir 30 nucleótidos al azar, con esto tendremos un vector con 30 elementos al cual vamos a querer colapsar en una única secuencia, lo que haremos con la función `paste`:
-```{r paquetes4} 
-nucleotidos_azar <- sample(c("A","G", "T", "C"), 30, replace = T)
-print(nucleotidos_azar)
-seq1 <- paste(nucleotidos_azar, collapse = "")
-print(seq1)
-```
-
-Comencemos a utilizar las funciones que nos da `Biostrings`. A la secuencia que creamos en el paso anterior la tenemos que convertir en un nuevo objeto que pueda ser entendido por las funciones que usemos de ahora en más como una secuencia de ADN:
-```{r paquetes5} 
-dna1 <- DNAString(seq1)
-print(dna1)
-class(dna1)
-```
-
-Algunas de las cosas que podremos hacer con nuestra secuencia son: conocer la secuencia inversa complementaria (con la función `reverseComplement()`), saber qué proteína se puede codificar a partir de nuestra secuencia de ADN (con la función `translate()`), o calcular la frecuencia de cada nucleótido (con `alphabetFrequency()`) o, incluso, subsecuencias en mi secuencia (con `letterFrequency()`)
-```{r paquetes6} 
-reverseComplement(dna1)
-translate(dna1)
-alphabetFrequency(dna1)
-letterFrequency(dna1, letters = "GC", as.prob = T)
-```
-
-También podemos trabajar con conjuntos de secuencias. En el siguiente ejemplo, vamos a crear 5 secuencias al azar y las vamos a poner en un vector utilizando un bucle `for`. El objetivo final será realizar un alineamiento múltiple entre estas secuencias.
-
-```{r paquetes7} 
-secuencias <- c() #creamos un vector vacío en el cual vamos a ir incluyendo las secuencias
-
-for(i in 1:5){ #i va a ser el indice de nuestro vector con el que vamos a ir agregando las secuencias
-  nucleotidos_nuevos <- sample(c("A", "G", "T", "C"), size = 30, replace = T) #elijo al azar los nucleótidos que van a formar la secuencia
-  seq_nueva <- paste(nucleotidos_nuevos, collapse = "") #colapso en una única secuencia el vector de nucleótidos
-  secuencias[i] <- seq_nueva #agrego la secuencia nueva al vector de secuencias
-}
-
-print(secuencias)
-
-```
-
-Ahora para poder trabajar con estas secuencias vamos tener que convertirlas en secuencias de ADN como las entienden las funciones de `Biostrings`. Noten que no es la misma función que usamos antes, eso es porque ahora tenemos más de una secuencia.
-```{r paquetes8} 
-dna_secuencias <- DNAStringSet(secuencias)
-```
-
-Podemos hacer el mismo análisis que hicimos al principio con seq1
-```{r paquetes9}
-reverseComplement(dna_secuencias)
-translate(dna_secuencias)
-alphabetFrequency(dna_secuencias)
-letterFrequency(dna_secuencias, letters = "GC", as.prob = T)
-
-```
-
-Finalmente, vamos a poder hacer un alineamiento múltiple de estas secuencias. Para realizarlo vamos a tener que utilizar un nuevo paquete que se llama `DECIPHER`. Por lo que, al igual que antes, vamos a tener que instalar el paquete y cargarlo en memoria.
-```{r paquetes10} 
-#BiocManager::install("DECIPHER")
-library(DECIPHER)
-```
-
-La funcion `AlignSeqs` es la que me va a permitir realizar el alineamiento múltiple 
-```{r paquetes11} 
-msa <- AlignSeqs(dna_secuencias)
-print(msa)
-```
-
-La misma función nos permite cambiar un monton de parámetros que van a determinar el resultado que obtendremos. En el siguiente ejemplo, hago que en el alineamiento sea "más fácil" partir las secuencias:
-```{r paquetes12} 
-msa2 <- AlignSeqs(dna_secuencias, gapOpening = -5)
-print(msa2)
-```
-
-
 ## Importar y exportar datos en R
 Poder cargar en R nuestros datos es el primer paso que vamos a tener que hacer en la mayor parte de los casos, al igual que vamos a querer exportar nuestros datos en algún archivo que pueda ser leido por alguien que no sepa usar `R` (porque no hizo este curso).
 Dependiendo de cuál es el formato de los archivos que querramos importar/exportar vamos a tener que usar distintas funciones. 
@@ -255,6 +179,127 @@ Para importar datos hacia una sesión de `R` también es muy sensillo y depender
 Veamos un ejemplo cargando la tabla que acabamos de exportar:
 ```{r importar4} 
 #tabla_plantas <- read.csv("plantas_filtradas.csv")
+```
+
+## Ejemplo Integrador
+
+Ahora vamos a ver un ejemplo que va a integrar varias de las cosas que estuvimos viendo hasta acá, utilizando las funciones que nos da el paquete `Biostring` y `DECIPHER`.
+```{r ejemplo1}
+library(Biostrings)
+```
+
+Creamos un string que representa una secuencia de ADN de una longitud de 50pb
+
+```{r ejemplo2} 
+seq1 <- "GAACCAAGACACTGTATGACCACGTTTTGCACGAATGCTTTGGATCTACG"
+class(seq1)
+```
+
+Comencemos a utilizar las funciones que nos da `Biostrings`. A la secuencia que creamos en el paso anterior la tenemos que convertir en un nuevo objeto que pueda ser entendido por las funciones que usemos de ahora en más como una secuencia de ADN:
+
+```{r ejemplo3} 
+dna1 <- DNAString(seq1)
+print(dna1)
+class(dna1)
+```
+
+Algunas de las cosas que podremos hacer con nuestra secuencia son: conocer la secuencia inversa complementaria (con la función `reverseComplement()`), saber qué proteína se puede codificar a partir de nuestra secuencia de ADN (con la función `translate()`), o calcular la frecuencia de cada nucleótido (con `alphabetFrequency()`) o, incluso, subsecuencias en mi secuencia (con `letterFrequency()`)
+```{r ejemplo4} 
+reverseComplement(dna1)
+translate(dna1)
+alphabetFrequency(dna1)
+letterFrequency(dna1, letters = "GC", as.prob = T)
+```
+
+Vamos con un ejemplo un poco mas complejo...
+
+El objetivo es realizar un Alineamiento Multiple de Secuencia (MSA) de una proteina llamada EEF2 en distintas especies de hongos
+
+Entre los archivos para la clase de hoy tienen uno llamado fungi_EEF2.csv (csv = comma separated values) 
+Vamos a importarlo a nuestra sesion de R...
+
+```{r ejemplo5}
+setwd("d:/Users/Maxi/Desktop/curso R")
+fungi_EEF2 <- read.csv("fungi_EEF2.csv")
+
+#Vamos a explorar los datos
+str(fungi_EEF2)
+head(fungi_EEF2)
+
+#De esta tabla me quiero quedar con las secuencias proteicas que estan en la tercer columna.
+EEF2_seqs  <- fungi_EEF2$Secuencia
+
+```
+
+Para poder trabajar con estas secuencias tengo que "convertirlas" en secuencias de proteinas (de forma analoga al ejemplo anterior)
+Ahora en vez de tener una secuencia de DNA tengo un conjunto de secuencias proteicas, por lo que la funcion que tenemos que usar es distinta...
+```{r ejemplo6} 
+EEF2_seqs <- AAStringSet(EEF2_seqs)
+class(EEF2_seqs)
+
+#Podemos hacer algunos de los analisis que habiamos hecho anteriormente
+alphabetFrequency(EEF2_seqs)
+
+```
+
+Finalmente, vamos a poder hacer un alineamiento múltiple de estas secuencias. Para realizarlo vamos a tener que utilizar un nuevo paquete que se llama `DECIPHER`. 
+Por lo que, al igual que antes, vamos a tener que instalar el paquete y cargarlo en memoria.
+
+```{r ejemplo7}
+#BiocManager::install("DECIPHER")
+library(DECIPHER)
+```
+
+
+La funcion `AlignSeqs` es la que me va a permitir realizar el alineamiento múltiple 
+```{r ejemplo8} 
+msa <- AlignSeqs(EEF2_seqs)
+print(msa)
+```
+
+La misma función nos permite cambiar un monton de parámetros que van a determinar el resultado que obtendremos. En el siguiente ejemplo, hago que en el alineamiento sea "más fácil" partir las secuencias:
+```{r ejemplo10} 
+msa2 <- AlignSeqs(EEF2_seqs, gapOpening = 0)
+print(msa2)
+```
+
+Ya tenemos nuestro MSA, ahora vamos a querer exportar los resultados. 
+Como lo hacemos? Tenemos varias opciones...
+```{r ejemplo11} 
+#1)Podemos guardar el MSA en un archivo .txt
+
+#write.table(msa, file = "EEF2_seqs_align.txt", quote = F, row.names = F, col.names = F)
+
+#2)Podemos agregar las secuencias ya alineadas como una nueva columna en la tabla original y exportar todo junto
+
+#fungi_EEF2$align <- as.character(msa)#Noten que tengo que cambiar el tipo de variable que tenia el msa
+#write.csv(fungi_EEF2, file = "fungi_EEF2_align.csv")
+
+#3)Tambien podriamos buscar de guardarlo en algun formato que sea mas amigable a 
+#la hora de querer trabajar con ese MSA en otros programas, como el formato FASTA.
+#Pero no tengo idea de como exportar datos en formato FASTA desde R, acaso Google tendra la respuesta?...
+
+```
+##BONUS TRACK para los amantes de excel...
+
+Hay muchisimas formas de importar y exportar datos en formato de planilla de excel.
+En general, se requiere de algún paquete que nos ayude.
+
+Entre los archivos de la clase de hoy tienen la misma tabla que usamos antes pero en una planilla de Excel, vamos a importarla...
+Vamos a usar el siguiente paquete:
+
+```{r ejemplo12} 
+#install.packages("openxlsx")
+#library(openxlsx)
+
+#Y ahora si estamos listos para importar nuestra tabla a R.
+
+#fungi_EEF2_excel <- read.xlsx("fungi_EEF2.xlsx")
+#head(fungi_EEF2_excel)
+
+#Tambien podemos exportar la tabla que creamos con el resultado del MSA
+
+#write.xlsx(fungi_EEF2, file = "fungi_EEF2_align.xlsx")
 ```
 
 La clase que viene vamos a ver cómo podemos realizar una exploración estadística de nuestros datos con `R`.

@@ -6,10 +6,11 @@
 #para eso tenemos que tener una variable que vaya acumulando el resultado de la suma en cada iteraci√≥n (n),y otra 
 #variable que vaya recorriendo los n√∫meros desde 1 hasta 100 (i)
 
-n=0
+n <- 0
 for (i in 1:100){
   n=n+i
 }
+
 print(n)
 
 #Hay alguna forma de hacer lo mismo pero sin utilizar un for?
@@ -17,17 +18,17 @@ sum(1:100)
 
 #queremos saber si un numero es par o impar, entonces debemos usar la estructura if - else
 
-numero = 10
+numero = 7
 if (numero%%2 == 0){
   print("El numero es par")
 }else{
   print("El numero es impar")
 }
 
-#esta es otra forma pero imprimiendo de otra manera los resultados (m√°s fachero)
+#esta es otra forma pero imprimiendo de otra manera los resultados (mas fachero)
 ?paste
 
-numero = 10
+numero = 571
 if (numero%%2 == 0){
   print(paste("El numero", numero, "es par"))
 }else{
@@ -36,7 +37,7 @@ if (numero%%2 == 0){
 
 
 #Ahora queremos guardar en una variable la suma de los n√∫meros pares desde 1 a 100 y en otra variable la suma de 
-#los n√∫meros impares. En este caso vamos a necesitar un "if" que me permita saber si un n√∫mero es par o impar
+#los numeros impares. En este caso vamos a necesitar un "if" que me permita saber si un n√∫mero es par o impar
 #la expresion %% me permite saber el resto de la division, por ej. 48%%2 va a devolver 0, que 48 es divisible 
 #por 2
 
@@ -44,9 +45,9 @@ pares   = 0
 impares = 0
 
 for (i in 1:100){
-  if (i%%2 == 0)
+  if (i%%2 == 0){
     pares = pares + i
-  else{
+  } else{
     impares = impares +i
   }
 }
@@ -63,19 +64,20 @@ impares = sum(seq(1, 100, by = 2))
 #----------------------------------------------Crear Funciones-------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
-#primer ejemplo sencillo para definir una funci√≥n en R
-sumar <- function(x, y){
-  print(x+y)
+#primer ejemplo sencillo para definir una funcion en R
+sumar <- function(numero1, numero2){
+  print(numero1+numero2)
 }
 
-sumar(2, 3)
+sumar(2, -7)
 
 sumar <- function(x, y){
-  suma <- x+y
-  return(suma)
+  juancito <- x+y
+  return(juancito)
 }
 
 total <- sumar(2, 3)
+
 print(total)
 
 total <- sumar(total, 10)
@@ -83,16 +85,16 @@ total <- sumar(total, 10)
 
 #otro ejemplo pero usando un for dentro de la funciÛn...
 
-sumar_hasta <- function(n){
+sumar_hasta <- function(n, m){
   suma_i <- 0
-  for(i in 1:n){
+  for(i in n:m){
     suma_i = suma_i + i
   }
   return(suma_i)
 }
 
-sumar_hasta(100)
-sumar_hasta(1010)
+sumar_hasta(76, 100)
+sumar_hasta(517)
 
 
 #--------------------------------------------------------------------------------------------------------------#
@@ -117,20 +119,48 @@ install.packages("BiocManager")
 
 BiocManager::install("Biostrings")
 
-#---------------------------------------Ejemplo Integrador-----------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------Exportacion e Importacion------------------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
+
+#Vamos a exportar la tabla del experimento de crecimiento de plantas filtrada por tipo de tratamiento (trt2) y por 
+#peso (plantas con pesos extremos)
+plantas <- PlantGrowth
+plantas_filtradas <- plantas[plantas$weight > 5.5 | plantas$weight < 4.5, ]
+
+write.csv(x = plantas_filtradas, file = "plantas_filtradas.csv")
+
+#Por otro lado, se pueden guardar objetos de R para poder usarlos m·s tarde en una nueva sesiÛn. A continuaciÛn guardamos en un archivo 
+#con la extensiÛn `.RData`, la tabla original de plantas y la filtrada:
+
+save(plantas, plantas_filtradas, file = "plantitas.RData")
+
+#vamos a borrar los objetos que acabamos de guardar para ver como los importamos de nuevo a nuestra sesi√≥n
+
+rm(plantas, plantas_filtradas)  #este comando elimina de nuestra sesion estos dos objetos
+
+load("plantitas.RData") #ahora los volvemos a importar desde el archivo plantas_filtradas.RData
+
+#Para importar datos hacia una sesiÛn de `R` tambiÈn es muy sencillo y depender· del tipo de archivo que sea: .csv, .txt, .fasta, etc. 
+#Veamos un ejemplo cargando la tabla que acabamos de exportar:
+
+tabla_plantas <- read.csv("plantas_filtradas.csv")
+
+dir()
+
+#--------------------------------------------------------------------------------------------------------------#
+#---------------------------------------Ejemplo Integrador-----------------------------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
+
 #Ahora vamos a ver un ejemplo que va a integrar varias de las cosas que estuvimos viendo hasta ac·,
-#utilizando las funciones que nos da el paquete Biostring.
+#utilizando las funciones que nos da el paquete Biostring y DECIPHER.
 
 library(Biostrings)
 
-#Creamos una secuencia de ADN al azar de una longitud de 30pb. Para esto utilizamos la funciÛn `sample` para elegir 30 nucleÛtidos al azar, con esto 
-#tendremos un vector con 30 elementos al cual vamos a querer colapsar en una ˙nica secuencia, lo que haremos con la funciÛn `paste`:
+#Creamos un string que representa una secuencia de ADN de una longitud de 50pb
 
-nucleotidos_azar <- sample(c("A","G", "T", "C"), 30, replace = T)
-print(nucleotidos_azar)
-seq1 <- paste(nucleotidos_azar, collapse = "")
-print(seq1)
-
+seq1 <- "GAACCAAGACACTGTATGACCACGTTTTGCACGAATGCTTTGGATCTACG"
+class(seq1)
 
 #Comencemos a utilizar las funciones que nos da `Biostrings`. A la secuencia que creamos en el paso anterior la tenemos que convertir en un nuevo objeto 
 #que pueda ser entendido por las funciones que usemos de ahora en m·s como una secuencia de ADN:
@@ -148,76 +178,82 @@ translate(dna1)
 alphabetFrequency(dna1)
 letterFrequency(dna1, letters = "GC", as.prob = T)
 
-#TambiÈn podemos trabajar con conjuntos de secuencias. En el siguiente ejemplo, vamos a crear 5 secuencias al azar y las vamos a poner en un vector utilizando un bucle `for`. 
-#El objetivo final ser· realizar un alineamiento m˙ltiple entre estas secuencias.
+#Vamos con un ejemplo un poco mas complejo...
 
-secuencias <- c() #creamos un vector vacÌo en el cual vamos a ir incluyendo las secuencias
+###El objetivo es realizar un Alineamiento Multiple de Secuencia (MSA) de una proteina llamada EEF2 en distintas especies de hongos
 
-for(i in 1:5){ #i va a ser el indice de nuestro vector con el que vamos a ir agregando las secuencias
-  nucleotidos_nuevos <- sample(c("A", "G", "T", "C"), size = 30, replace = T) #elijo al azar los nucleÛtidos que van a formar la secuencia
-  seq_nueva <- paste(nucleotidos_nuevos, collapse = "") #colapso en una ˙nica secuencia el vector de nucleÛtidos
-  secuencias[i] <- seq_nueva #agrego la secuencia nueva al vector de secuencias
-}
+#Entre los archivos para la clase de hoy tienen uno llamado fungi_EEF2.csv (csv = comma separated values)
+#Vamos a importarlo a nuestra sesion de R...
 
-print(secuencias)
+fungi_EEF2 <- read.csv("fungi_EEF2.csv")
 
-#Ahora para poder trabajar con estas secuencias vamos tener que convertirlas en secuencias de ADN como las entienden las funciones de `Biostrings`. Noten que no es la misma 
-#funciÛn que usamos antes, eso es porque ahora tenemos m·s de una secuencia.
+#Vamos a explorar los datos
+str(fungi_EEF2)
+head(fungi_EEF2)
 
-dna_secuencias <- DNAStringSet(secuencias)
+#De esta tabla me quiero quedar con las secuencias proteicas que estan en la tercer columna.
+EEF2_seqs  <- fungi_EEF2$Secuencia
 
-#Podemos hacer el mismo an·lisis que hicimos al principio con seq1
+#Para poder trabajar con estas secuencias tengo que "convertirlas" en secuencias de proteinas (de forma analoga al ejemplo anterior)
+#Ahora en vez de tener una secuencia de DNA tengo un conjunto de secuencias proteicas, por lo que la funcion que tenemos que usar es distinta...
+EEF2_seqs <- AAStringSet(EEF2_seqs)
+class(EEF2_seqs)
 
-reverseComplement(dna_secuencias)
-translate(dna_secuencias)
-alphabetFrequency(dna_secuencias)
-letterFrequency(dna_secuencias, letters = "GC", as.prob = T)
+#Podemos hacer algunos de los analisis que habiamos hecho anteriormente
+alphabetFrequency(EEF2_seqs)
+
 
 #Finalmente, vamos a poder hacer un alineamiento m˙ltiple de estas secuencias. Para realizarlo vamos a tener que utilizar un nuevo paquete que se llama `DECIPHER`. 
 #Por lo que, al igual que antes, vamos a tener que instalar el paquete y cargarlo en memoria.
 
-BiocManager::install("DECIPHER")
 library(DECIPHER)
 
-#La funcion `AlignSeqs` es la que me va a permitir realizar el alineamiento m˙ltiple 
+#La funcion `AlignSeqs` es la que me va a permitir realizar el MSA 
 
-msa <- AlignSeqs(dna_secuencias)
+msa <- AlignSeqs(EEF2_seqs)
 print(msa)
 
 #La misma funciÛn nos permite cambiar un monton de par·metros que van a determinar el resultado que obtendremos. En el siguiente ejemplo, 
 #hago que en el alineamiento sea "m·s f·cil" partir las secuencias:
 
-msa2 <- AlignSeqs(dna_secuencias, gapOpening = -5)
+msa2 <- AlignSeqs(EEF2_seqs, gapOpening = 0)
 print(msa2)
 
+#Ya tenemos nuestro MSA, ahora vamos a querer exportar los resultados. 
+#Como lo hacemos? Tenemos varias opciones...
+
+#1)Podemos guardar el MSA en un archivo .txt
+write.table(msa, file = "EEF2_seqs_align.txt", quote = F, row.names = F, col.names = F)
+
+#2)Podemos agregar las secuencias ya alineadas como una nueva columna en la tabla original y exportar todo junto
+
+fungi_EEF2$align <- as.character(msa)#Noten que tengo que cambiar el tipo de variable que tenia el msa
+write.csv(fungi_EEF2, file = "fungi_EEF2_align.csv")
+
+#3)Tambien podriamos buscar de guardarlo en algun formato que sea mas amigable a 
+#la hora de querer trabajar con ese MSA en otros programas, como el formato FASTA.
+#Pero no tengo idea de como exportar datos en formato FASTA desde R, acaso Google tendra la respuesta?...
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#-------------------------------------------Exportacion e Importacion------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+##BONUS TRACK para los amantes de excel...
 
-#Vamos a exportar la tabla del experimento de crecimiento de plantas filtrada por tipo de tratamiento (trt2) y por 
-#peso (plantas con pesos extremos)
-plantas <- PlantGrowth
-plantas_filtadas <- plantas[plantas$weight > 5.5 | plantas$weight < 4.5, ]
+#Hay muchisimas formas de importar y exportar datos en formato de planilla de excel.
+#En general, se requiere de alg˙n paquete que nos ayude.
 
-write.csv(x = plantas_filtradas, file = "plantas_filtradas.csv")
+#Entre los archivos de la clase de hoy tienen la misma tabla que usamos antes pero en una planilla de Excel, vamos a importarla...
+#Vamos a usar el siguiente paquete:
 
-#Por otro lado, se pueden guardar objetos de R para poder usarlos m·s tarde en una nueva sesiÛn. A continuaciÛn guardamos en un archivo 
-#con la extensiÛn `.RData`, los dos alineamientos m˙ltiples que generamos anteriormente:
+install.packages("openxlsx")
+library(openxlsx)
 
-save(msa, msa2, file = "alineamientos.RData")
+#Y ahora si estamos listos para importar nuestra tabla a R.
+fungi_EEF2_excel <- read.xlsx("fungi_EEF2.xlsx")
+head(fungi_EEF2_excel)
 
-#vamos a borrar los objetos que acabamos de guardar para ver como los importamos de nuevo a nuestra sesi√≥n
+#Tambien podemos exportar la tabla que creamos con el resultado del MSA
+write.xlsx(fungi_EEF2, file = "fungi_EEF2_align.xlsx")
 
-rm(msa, msa2)  #este comando eliminar√° de nuestra sesi√≥n estos dos objetos
 
-load("alineamientos.RData") #ahora los volvemos a importar desde el archivo plantas_filtradas.RData
-
-#Para importar datos hacia una sesiÛn de `R` tambiÈn es muy sensillo y depender· del tipo de archivo que sea: .csv, .txt, .fasta, etc. 
-#Veamos un ejemplo cargando la tabla que acabamos de exportar:
-
-tabla_plantas <- read.csv("plantas_filtradas.csv")
 #--------------------------------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
