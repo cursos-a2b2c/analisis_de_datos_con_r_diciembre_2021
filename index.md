@@ -51,7 +51,7 @@ Para Ubuntu pueden ver este tutorial:
 Si tienen ganas, pueden darle una ojeada antes del primer día al tutorial oficial de R: [https://cran.r-project.org/doc/manuals/r-release/R-intro.html](https://cran.r-project.org/doc/manuals/r-release/R-intro.html)
 
 # Actividades
-Las clases comenzarán el lunes 29 de diciembre a las 9:00 hs (GMT -3).  
+Las clases comenzarán el lunes 29 de noviembre a las 9:00 hs (GMT -3).  
 Las clases teóricas son de 1.5 horas y comienzan a las 9:00 hs cada día.
 Las clases prácticas son de 1.5 horas y comienzan a las 10:40 hs cada día (dejamos 10 minutos de descanso entre la teórica y la práctica).
 Intentaremos ser puntuales en el comienzo y fin de cada jornada.
