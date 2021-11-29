@@ -13,6 +13,17 @@
 
 #Si suponemos que sin la droga, la probabilidad de que sea M o F es 50%, ¿cuál es la probabilidad de obtener
 #cada uno de esos resultados por azar? 
+#Esta distribucion se conoce como binomial, y responde al resultado de un conjunto de preguntas dicotomicas 
+#independientes todas con la misma probabilidad. 
+#En este caso, la pregunta es si salio de un huevo M o F, y si vemos todos los huevos, sumamos todos las veces 
+#que sale M, obtenemos la binomial.
+
+#R tiene una funcion que nos devuelve esta probabilidad
+dbinom(x = 1, size = 1, prob = 0.5)
+dbinom(x = 2, size = 2, prob = 0.5)
+dbinom(x = 1, size = 10, prob = 0.5)
+dbinom(x = 1, size = 10, prob = 0.1)
+
 cuantos_masculinos         <- 0:48
 probabilidad_de_masculinos <- dbinom(cuantos_masculinos, 48, prob = 0.5)
 plot(cuantos_masculinos, probabilidad_de_masculinos, type='h')
