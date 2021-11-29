@@ -7,12 +7,6 @@
 * [Cuadernillo](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_1/dia_1.Rmd)  
 
 ### Clase 2: Introducción a R, continuación
-* [Práctica](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_2/practica_dia_2.docx)  
-* [Práctica resuelta](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_2/solucion_practica_dia_2.R)    
-* [Script de R](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_2/dia_2.R)  
-* [Cuadernillo](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_2/dia_2.Rmd)
-* [Dataset1](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_2/fungi_EEF2.csv)  
-* [Dataset2](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_2/fungi_EEF2.xlsx)  
 
 ### Clase 3: Introducción a la estadística descriptiva
 
