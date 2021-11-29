@@ -1,9 +1,6 @@
 #################################################################
 #              Curso de análisis de datos con R
-#Asociación Argentina de Bioinformática y Biologíca Computacional
-#                 Fundación Instituto Leloir
-#                        Marzo 2021
-#            Práctica Elementos básicos de R
+#               Práctica Elementos básicos de R
 #################################################################
 #1) Asignale a la variable x el valor 2 y a la variable y el valor 10. Ahora asignale a la variable w el valor x+y y a la variable z el valor x == y (observá que tiene dos signos = y no sólo uno, ¿Por qué?). ¿De qué clase son estas dos últimas variable?. Ayuda: la asignación de una variable se realiza con el operador “<-”, así por ejemplo para asignar el valor “Hola Mundo” a la variable Saludo debo tipear Saludo<-”Hola Mundo”. Además, tipeá en la consola ?class
 x <- 2
