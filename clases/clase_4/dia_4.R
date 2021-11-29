@@ -1,256 +1,51 @@
 #################################################################
 #              Curso de análisis de datos con R
-#Asociación Argentina de Bioinformática y Biologíca Computacional
-#                 Fundación Instituto Leloir
-#                        Marzo 2021
 #                      Test de hipótesis
 #################################################################
+#Las gallinas femeninas son mas valiosas para las granjas que las masculinas porque
+#pueden poner huevos. Un laboratorio quiere probar tres drogas que supuestamente aumentan la probabilidad
+#de que una gallina nazca femenina en lugar de masculina.
+#Aplica cada tipo de droga en tres grupos de 48 gallinas (una droga por grupo) y obtiene los siguientes resultados:
+#Droga 1: 25 F 23 M
+#Droga 2: 47 F 1 M
+#Droga 3: 31 F 17 M
+#¿Qué dirían respecto a cada droga?
 
-#Usemos R como un simulador. Simulemos tirar un dado miles de veces. La función sample va a venir en
-#nuestra ayuda para esto.
-?sample
+#Si suponemos que sin la droga, la probabilidad de que sea M o F es 50%, ¿cuál es la probabilidad de obtener
+#cada uno de esos resultados por azar? 
+cuantos_masculinos         <- 0:48
+probabilidad_de_masculinos <- dbinom(cuantos_masculinos, 48, prob = 0.5)
+plot(cuantos_masculinos, probabilidad_de_masculinos, type='h')
 
-#Las computadoras son máquinas deterministas, ante la misma entrada siempre devuelven la misma salida.
-#Si queremos simular azar, necesitamos un generador de números pseudo-aleatorios. 
-#Los generadores de números pseudo-aleatorios necesitan un lugar desde donde comenzar a producir
-#los números y eso se lo decimos a R usando set.seed
-#Un poco más de información para los curiosos: https://es.wikipedia.org/wiki/Generador_de_n%C3%BAmeros_pseudoaleatorios
-set.seed(123457)
+#Si aceptamos 17 como evidencia, también hubieramos aceptado 16, 15, 14...0, entonces,
+#calculemos la probabilidad de obtener 17 o menos "a mano".
+sum(dbinom(0:17, 48, prob = 0.5))
 
-#Fabriquemos un dado y tirémoslo varias veces
-dado <- 1:6
-dado
-sample(x = dado, size = 1)
-sample(x = dado, size = 1)
-sample(x = dado, size = 1)
-sample(x = dado, size = 1)
-#Cada vez que lo tiramos da algo distinto!
+#esta probabilidad de observar lo que observamos, suponiendo que no hay efecto (hipotesis nula) 
+#es lo que se conoce como pvalue. En este caso, la hipotesis alternativa, que es la que nos interesa, 
+#es que la droga hace que nazcan mas gallinas F que M.
+#Como es "bastante" raro haber observado 17 M o menos, descartamos que no haya efecto (rechazamos la hipotesis nula).
+#En general, en biología, se rechaza la hipotesis nula cuando el pvalue es menor a 0.05.
 
-#Ahora tiremos dos dados
-sample(dado, 2, replace = T)
-sample(dado, 2, replace = T)
-sample(dado, 2, replace = T)
-sample(dado, 2, replace = T)
+#Otra hipotesis alternativa podria ser que la droga cambia la probabilidad de 0.5 de obtener F o M, pero sin
+#indicar cual tiene mas probabilidad y cual menos (sin indicar la direccion del cambio).
+#Entonces ademas de probar 17 o menos, deberiamos probar 31 o mas.
+sum(dbinom(0:17, 48, prob = 0.5)) + sum(dbinom(31:48, 48, prob = 0.5))
 
-#Tiramos diez veces los dos dados. Podríamos usar un for pero r nos ayuda usando replicate
-?replicate
+#esto se conoce como test a dos colas, mientras que en el caso anterior, se conoce como test a una cola
 
-#Fabriquemos una función que tire los dos dados. Fijensé que una función no necesariamente requiere
-#un parámetro
-dosDados <- function(){
-  #Fabrico el dado
-  dado <- 1:6
-  #Lo tiro dos veces
-  tirada <- sample(dado, 2, replace=T)
-  #Devuelvo la tirada
-  return(tirada)
-}  
+#Veamos como hacer este test usando funciones de R en lugar de hacerlo a mano.
+binom.test(17, 48, p = 0.5, "less") #a una cola
 
-#Tiremos los dados diez veces
-diez_tiradas <- replicate(10, dosDados())
+binom.test(17, 48, p = 0.5, "two.sided") #a dos colas
 
-#Veamos qué devuelve R
-diez_tiradas
+#Veamos las salidas de estos tests.
+#Este test se llama "test exacto de bondad de ajuste" o "exact test of goodness-of-fit" y se usa cuando tenemos
+#una variable nominal con dos niveles (por ejemplo F y M), pocas observaciones y un modelo teorico de lo que 
+#esperamos que de.
 
-#Transponemos para que cada columna sea un dado y cada fila una tirada 
-?t
-diez_tiradas <- t(diez_tiradas)
-diez_tiradas
+#Veamos otros tests que se suelen utilizar y como hacerlos.
 
-#Sumemos los dos dados de cada tirada. Podríamos usar un for pero por rowSums viene a nuestra ayuda
-#para sumar los elementos de cada fila entre si, fila por fila.
-?rowSums
-suma_de_las_caras <- rowSums(diez_tiradas)
-suma_de_las_caras
-
-#¿Es igual de probable sacar cualquier número? Contemos cuantas veces aparece cada número.
-table(suma_de_las_caras)
-
-#¿Si corremos esto de nuevo obtenemos el mismo resultado?
-diez_tiradas <- replicate(10, dosDados())
-diez_tiradas <- t(diez_tiradas)
-suma_de_las_caras2 <- rowSums(diez_tiradas)
-
-#Comparemos con la tirada anterior
-table(suma_de_las_caras)
-table(suma_de_las_caras2)
-
-#¿Cómo podemos intentar estimar la probabilidad real de que salga cada número?
-#Si tiramos muchas veces y contamos cuantas veces 
-#da cada resultado nos podemos acercar bastante al valor real
-diezmil_tiradas <- replicate(10000, dosDados())
-diezmil_tiradas <- t(diezmil_tiradas)
-head(diezmil_tiradas)
-suma_de_las_caras <- rowSums(diezmil_tiradas)
-
-#Calculemos la probabilidad estimada de cada número. Esto lo podemos pensar como el porcentaje de
-#veces que salió cada uno
-probabilidad_estimada <- table(suma_de_las_caras)/10000
-
-#La posta se puede calcular (¿cómo?) y es la siguiente:
-probabilidad_real <- c(1/36, 2/36, 3/36, 4/36, 5/36, 6/36, 5/36, 4/36, 3/36, 2/36, 1/36)
-
-#Grafiquemos la probabilidad estimada y la probabilidad real
-plot(probabilidad_estimada, xlab="x", ylab = "P", main="Distribución (estimada) de probabilidad de 'suma de las caras'")
-points(2:12, probabilidad_real, col = "red")
-
-#Bastante bien la simulación, no? Esto es lo que se conoce como la ley de los grandes números.
-
-#Para pensar: probar con otros valores de replicate, por ejemplo: 10, 100, 1000, 1000000 y ver cuántas tiradas
-#necesitamos para acercarnos.
-
-#¿Cómo calcularían la probabilidad de que la suma de entre 3 y 7?
-entre <- suma_de_las_caras >= 3 & suma_de_las_caras <= 7
-head(entre)
-sum(entre)/length(suma_de_las_caras)
-
-#¿Dará lo mismo si sumamos las probabilidades de que salga cada número, desde el 3 al 7?
-probabilidad_estimada
-sum(probabilidad_estimada[c("3", "4", "5", "6", "7")])
-
-#¿Y cuanto da la probabilidad de que salga cualquiera de los números desde el 2 al 12?
-sum(probabilidad_estimada)
-
-#Veamos como podemos simular otras distribuciones con R. Exploremos la función runif a ver qué devuelve.
-#Primero reiniciemos el generador de números aleatorios
-set.seed(123457)
-runif(n = 1)
-runif(n = 1)
-runif(n = 1)
-runif(n = 1)
-
-#Corramos 100 veces runif con replicate y grafiquemos un histograma de lo que obtuvimos
-unif <- replicate(100, runif(n = 1))
-hist(unif)
-
-#Corramos 1000 veces runif con replicate y grafiquemos un histograma de lo que obtuvimos
-unif <- replicate(1000, runif(n = 1))
-hist(unif)
-
-#runif viene con su propio replicate incorporado, podemos pedirle 100000 números directamente. Grafiquemos un histograma de lo que obtuvimos.
-unif <- runif(100000)
-hist(unif)
-
-#¿Qué devuelve entonces runif?
-#¿Qué pasa al aumentar la muestra?
-
-#Veamos cuántos números hay menores a 0.5. ¿Cuántos números esperan?
-menores <- unif < 0.5
-head(menores)
-table(menores)
-
-#¿Y menores a 0.95?.
-menores <- unif < 0.95
-table(menores)
-
-#¿Y entre 0.25 y 0.75? ¿Qué porcentaje tiene?.
-entre <- unif > 0.25 & unif < 0.75
-table(entre)/length(unif)
-
-#Veamos una función más, rnorm. ¿Qué es cada parámetro?
-?rnorm
-
-#Generemos 10000 números con esta funcion y grafiquemos un histograma
-norm <- rnorm(n = 10000, mean = 0, sd = 1)
-hist(norm)
-#¿Reconocen esta distribución?
-
-#¿Cuál debería ser la media y el desvío estandar si los estimamos con la muestra que generamos?
-mean(norm)
-sd(norm)
-#¿Son exactamente las esperadas? ¿Por qué?
-
-#Veamos como obtener la densidad de probabilidad real (no la estimada) de una normal con R. 
-#Elijamos una secuencia de x.
-x <- seq(-4, 4, by = 0.1)
-head(x)
-tail(x)
-
-#Usamos la función dnorm que devuelve la densidad de probabilidad para cada valor de x que usamos
-d <- dnorm(x, mean = 0, sd = 1)
-hist(norm, freq = F)
-points(x, d, main = "Densidad de probabilidad normal (mean = 0, sd = 0)")
-lines(x, d)
-#Grafiquemos cada par x, d de la densidad de probabilidad real.
-plot(x, d, main = "Densidad de probabilidad normal (mean = 0, sd = 0)")
-
-#¿Cómo podemos calcular la probabilidad de que al sacar una x cualquiera, la misma sea menor a -1? pnorm al rescate
-abline(v = -1, col="red")
-p1 <- pnorm(q = -1, mean = 0, sd = 1)
-#¿Y menor a 1?
-abline(v = 1, col="red")
-p2 <- pnorm(q = 1, mean = 0, sd = 1)
-#¿Cómo podemos calcular la probabilidad de que la x esté entre -1 y 1?
-p2 - p1
-#El 68% de las x están entre -1 y 1, es decir, el 68% de las x están a un desvío estandar de la media!
-
-#¿Cuál es el valor de x tal que la probabilidad de sacar una x menor sea de 0.025%? qnorm al rescate
-x1 <- qnorm(p = 0.025, mean = 0, sd = 1)
-abline(v = x1, col="blue")
-
-#¿Cuál es el valor de x tal que la probabilidad de sacar una x menor sea de 97.5%? qnorm al rescate
-x2 <- qnorm(p = 0.975, mean = 0, sd = 1)
-abline(v = x2, col="blue")
-#Entonces, ¿cuál es la probabilidad de sacar una x entre x1 y x2?
-
-#Con estas herramientas ya estamos en condiciones de probar algunas cosas.
-#Juguemos a ser Levi-Strauss y el tipo de los aliens. Simulemos nuestros propios seres humanos. 
-#Supongamos que la distribución de la altura es normal, con media 175 cm y desvío estandar 7 cm. Tomemos una muestra de esa población.
-set.seed(123457)
-muestra1 <- rnorm(n = 10, mean = 175, sd = 7)
-muestra1
-
-#Con esta muestra, ¿Qué valor estimamos para la media?
-mean(muestra1)
-
-#¿Y si tomamos una nueva muestra?
-muestra2 <- rnorm(n = 10, mean = 175, sd = 7)
-muestra2
-
-a <- t(replicate(100, runif(10000)))
-b <- apply(a, 1, mean)
-hist(b)
-
-#Con esta muestra, ¿Qué valor estimamos para la media?
-mean(muestra2)
-
-#Volviendo a los aliens, ¿podemos cuantificar de alguna forma la sorpresa (o falta de sorpresa) que nos dio cada uno de los esqueletos encontrados?
-#Podríamos preguntarnos cuál es la probabilidad de encontrar una persona de 170 cm o más por azar. Usamos pnorm que nos da la probabilidad de 170 o menos
-#así que eso se lo tenemos que restar a la probabilidad total que es 1
-x <- seq(150, 200, 1)
-d <- dnorm(x, mean = 175, sd = 7)
-plot(x, d)
-pvalue1 <- 1 - pnorm(170, mean = 175, sd = 7)
-pvalue1
-
-#A este valor se lo llama pvalue o pvalor y cuantifica la probabilidad de obtener el resultado que obtuvimos o uno mayor por azar, suponiendo que nuestro
-#dato provino de una cierta población (en este caso, suponiendo que el esqueleto era humano).
-#Calculemos el pvalue para el de 400 cm
-pvalue3 <- 1 - pnorm(400, mean = 175, sd = 7)
-pvalue3
-
-#¿Y qué pasa con el de 185 cm?
-pvalue2 <- 1 - pnorm(185, mean = 175, sd = 7)
-pvalue2
-
-#¿Qué pasó? ¿Nos estaremos equivocando?
-
-#Veamos cuál es el valor de altura crítico para descartar que un esqueleto sea humano con una significancia de 0.01. qnorm al rescate. 
-maxNoSignificativo <- qnorm(0.99, mean = 175, sd = 7)
-maxNoSignificativo
-
-#En este caso pudimos hacer un test de hipótesis porque conocíamos la distribución de alturas para personas (es decir, la hipótesis nula). 
-#Pero ¿qué pasa en casos donde no conocemos esa distribución? 
-#Necesitamos construirnos un estadístico a partir de nuestros datos cuya distribución, si vale la hipótesis nula, sea conocida. 
-#Por suerte para nosotros, hay muchísimos tests que podemos usar en R dependiendo de lo que necesitamos hacer.
-
-#Tomamos una muestra de la altura de personas en Holanda y queremos saber si la altura de esas personas es significativamente diferente de la
-#media mundial. Usamos un t Test de una muestra. El t Test require que los datos sean aproximadamente normales y sin outliers
-#(aunque es bastante robusto si esto no se cumple del todo).
-alturasHolanda <- c(182, 183, 182, 180, 181, 180, 182, 181, 182, 181)
-
-#Veamos outliers
-boxplot(alturasHolanda)
 
 #Veamos que estos datos cumplen normalidad. Usamos el test de shapiro-wilk que testea justamente eso
 
