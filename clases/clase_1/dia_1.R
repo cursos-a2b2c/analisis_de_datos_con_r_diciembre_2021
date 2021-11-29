@@ -50,9 +50,9 @@ as.integer(cursos_totales)
 as.character(cursos_totales)
 as.logical(cursos_totales)
 
-#Cómo representar la ausencia de un dato? NA y NaN
+#C?mo representar la ausencia de un dato? NA y NaN
 NA
-NA == NA #¿NA es igual a NA?
+NA == NA #?NA es igual a NA?
 
 0/0
 Inf - Inf
@@ -83,8 +83,8 @@ cs <- c("Linux", "Python", "R", 2) #Â¿Que ocurrio con el 2?
 
 cs <- list("Linux", "Python", "R", 2)
 class(cs[1])
-class(cs[[1]]) #¿De que clase es el primer elemento de la lista?
-class(cs[[4]]) #¿De que clase es el cuarto elemento de la lista?
+class(cs[[1]]) #?De que clase es el primer elemento de la lista?
+class(cs[[4]]) #?De que clase es el cuarto elemento de la lista?
 
 #En R tambien encontramos estructuras de datos que son de dos dimensionen que nos van a permitir trabajar con
 #tablas (a las que vamos a llamar data.frames) y matrices.
@@ -102,7 +102,7 @@ colnames(carga_horaria)  #colnames nos devuelve los nombres de las columnas, de 
 ?cbind
 ?rbind
 
-profes <- c("eli", "javi", "andres")
+profes <- c("maxi", "tomi", "andres")
 
 carga_horaria <- cbind(carga_horaria, profes) #fijense que estoy pisando la variable vieja agregando una nueva columna
                                               #de forma similar puedo agregar filas con rbind 
@@ -136,7 +136,7 @@ class(plantas$group)  #factor es una clase de escructura de datos similar a un v
 levels(plantas$group) #levels son los distintos valores que puede tomar los elementos dentro del objeto factor, en 
                       #este caso serÃ­an los distintos tratamiento a los que se sometieron las plantas.
 
-#Cómo quedarnos con todos los datos de una columna?
+#C?mo quedarnos con todos los datos de una columna?
 plantas$weight       #imprimir en pantalla la primera columna del dataset
 plantas[, 1]         #otra forma de hacer lo mismo
 plantas[, "weight"]  #y otra mas...
@@ -164,7 +164,7 @@ plantas[which(plantas$weight > 5.5), ]
 
 plantas[which(plantas$weight > 5.5 & plantas$group == "trt2"), ]
 
-#También me puedo quedar solamente con los valores extremos
+#Tambi?n me puedo quedar solamente con los valores extremos
 plantas[plantas$weight > 5.5 | plantas$weight < 4.5, ]
 
 #Puedo guardar la tabla subseteada como un nuevo objeto
@@ -195,5 +195,5 @@ tecnicas_BioMol <- list(DNA = "Southern", Proteinas = "Western" , RNA = c("North
 tecnicas_BioMol$RNA
 
 
-#Ahora que ya sabemos qué tipos de datos nos podemos encontrar en R y comó acceder a la informacion 
-#que contienen, en la clase que viene vamos a comenzar a ver cómo analizarlos.
+#Ahora que ya sabemos qu? tipos de datos nos podemos encontrar en R y com? acceder a la informacion 
+#que contienen, en la clase que viene vamos a comenzar a ver c?mo analizarlos.
