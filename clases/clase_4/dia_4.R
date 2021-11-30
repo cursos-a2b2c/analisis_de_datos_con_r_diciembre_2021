@@ -180,15 +180,32 @@ bartlett.test(list(iris$Sepal.Length[iris$Species == "setosa"], iris$Sepal.Lengt
 #Ups! Qué podemos hacer? Usar el test de welch, que testea lo mismo que un t-test pero soporta varianzas distintas
 t.test(iris$Sepal.Length[iris$Species == "setosa"], iris$Sepal.Length[iris$Species == "versicolor"], var.equal = F)
 
-#Veamos un ejemplo con muchas categorias.
+#Veamos un ejemplo con muchos valores de categorias.
 #Cargamos el archivo de tamanios (Aam) de mejillones en distintos lugares (Location)
 mejillones <- read.csv(file = "mejillones.csv")
 View(mejillones)
 table(mejillones$Location)
 
-#Usamos anova para comparar la media de los distintos grupos
+#Usamos anova para comparar la media de los distintos grupos. Necesita normalidad e igualdad de varianzas.
 boxplot(Aam ~ Location, mejillones)
-summary(aov(Aam ~ Location, mejillones))
+shapiro.test(mejillones$Aam[mejillones$Location == "Magadan"])
+shapiro.test(mejillones$Aam[mejillones$Location == "Newport"])
+shapiro.test(mejillones$Aam[mejillones$Location == "Petersburg"])
+shapiro.test(mejillones$Aam[mejillones$Location == "Tillamook"])
+shapiro.test(mejillones$Aam[mejillones$Location == "Tvarminne"])
+
+#Descartamos Magadan y Tvarminne porque no son normales
+mejillones <- mejillones[mejillones$Location != "Magadan", ]
+mejillones <- mejillones[mejillones$Location != "Tvarminne", ]
+table(mejillones$Location)
+
+#Veamos las varianzas de esas localidades
+var(mejillones$Aam[mejillones$Location == "Newport"])
+var(mejillones$Aam[mejillones$Location == "Petersburg"])
+var(mejillones$Aam[mejillones$Location == "Tillamook"])
+
+#Son practicamente iguales, podemos usar anova
+summary(aov(Aam ~ Location, mejillones[mejillones$Location ]))
 
 #Hay muchisimos tests para muchisimos casos distintos, les recomendamos fuertemente que lean
 #McDonald J. (2014). HANDBOOK OF BIOLOGICAL STATISTICS, SPARKY HOUSE PUBLISHING. (http://www.biostathandbook.com/HandbookBioStatThird.pdf)
