@@ -2,31 +2,36 @@
 #              Curso de análisis de datos con R
 #                      Test de hipótesis
 #################################################################
-#Las gallinas femeninas son mas valiosas para las granjas que las masculinas porque
+#Las gallinas son mas valiosas para las granjas que los gallos porque
 #pueden poner huevos. Un laboratorio quiere probar tres drogas que supuestamente aumentan la probabilidad
-#de que una gallina nazca femenina en lugar de masculina.
-#Aplica cada tipo de droga en tres grupos de 48 gallinas (una droga por grupo) y obtiene los siguientes resultados:
-#Droga 1: 25 F 23 M
-#Droga 2: 47 F 1 M
-#Droga 3: 31 F 17 M
+#de que una gallina nazca gallina en lugar de gallo
+#Aplica cada tipo de droga en tres grupos de 48 gallinas (una droga distinta por grupo) y obtiene los siguientes resultados:
+#Droga 1: 25 H 23 M
+#Droga 2: 47 H 1 M
+#Droga 3: 31 H 17 M
 #¿Qué dirían respecto a cada droga?
-
-#Si suponemos que sin la droga, la probabilidad de que sea M o F es 50%, ¿cuál es la probabilidad de obtener
-#cada uno de esos resultados por azar? 
-#Esta distribucion se conoce como binomial, y responde al resultado de un conjunto de preguntas dicotomicas 
-#independientes todas con la misma probabilidad. 
-#En este caso, la pregunta es si salio de un huevo M o F, y si vemos todos los huevos, sumamos todos las veces 
-#que sale M, obtenemos la binomial.
+#------------------------------------
+#¿cuál es la probabilidad de obtener el ultimo resultado si la droga no tuviera efecto, simplemente por azar?
+#Para resolver esto, podemos empezar pensando que pasa con un solo huevo. Si la droga no tiene efecto, el huevo va a dar H o M con 50% de probabilidad cada uno.
+#Para dos huevos, tenemos 4 opciones: H H, H M, M H, M M. Entonces, la probabilidad de dos H es 25%, de dos M es 25% y de una H y un M es 50%.
+#Entonces, hacemos esto pero para 48 huevos.
+#Si pensamos que lo que le pasa a cada gallina es independiente de lo que le pasa a la otra, simplemente tenemos que preguntarnos de cuantas
+#formas posibles podemos obtener 17 M de 48 totales.
+#Esta distribucion se conoce como binomial, y responde al resultado de un conjunto de preguntas dicotomicas independientes todas con la misma probabilidad. 
 
 #R tiene una funcion que nos devuelve esta probabilidad
-dbinom(x = 1, size = 1, prob = 0.5)
-dbinom(x = 2, size = 2, prob = 0.5)
-dbinom(x = 1, size = 10, prob = 0.5)
-dbinom(x = 1, size = 10, prob = 0.1)
+dbinom(x = 1, size = 1, prob = 0.5) #¿Que esperamos que de?
 
-cuantos_masculinos         <- 0:48
-probabilidad_de_masculinos <- dbinom(cuantos_masculinos, 48, prob = 0.5)
-plot(cuantos_masculinos, probabilidad_de_masculinos, type='h')
+cuantos_machos         <- c(0, 1, 2)
+probabilidad_de_machos <- dbinom(x = cuantos_machos, size = 2, prob = 0.5) #¿Que esperamos que de?
+probabilidad_de_machos
+plot(cuantos_machos, probabilidad_de_machos, type='h', ylim = c(0, 1))
+
+#Veamos ahora para nuestra muestra particular
+cuantos_machos         <- 0:48
+probabilidad_de_machos <- dbinom(cuantos_machos, 48, prob = 0.5)
+plot(cuantos_machos, probabilidad_de_machos, type='h', col = c(rep("red", 17),
+                                                               rep("black", 31)))
 
 #Si aceptamos 17 como evidencia, también hubieramos aceptado 16, 15, 14...0, entonces,
 #calculemos la probabilidad de obtener 17 o menos "a mano".
@@ -34,9 +39,20 @@ sum(dbinom(0:17, 48, prob = 0.5))
 
 #esta probabilidad de observar lo que observamos, suponiendo que no hay efecto (hipotesis nula) 
 #es lo que se conoce como pvalue. En este caso, la hipotesis alternativa, que es la que nos interesa, 
-#es que la droga hace que nazcan mas gallinas F que M.
+#es que la droga hace que nazcan menos gallinas M que H.
 #Como es "bastante" raro haber observado 17 M o menos, descartamos que no haya efecto (rechazamos la hipotesis nula).
 #En general, en biología, se rechaza la hipotesis nula cuando el pvalue es menor a 0.05.
+
+#Otra hipotesis que podriamos haber testeado es que haya mas H que las esperadas por azar
+cuantas_hembras         <- 0:48
+probabilidad_de_hembras <- dbinom(cuantas_hembras, 48, prob = 0.5)
+plot(cuantas_hembras, probabilidad_de_hembras, type='h')
+plot(cuantos_machos, probabilidad_de_machos, type='h', col = c(rep("black", 31),
+                                                               rep("red", 17)))
+
+#Si aceptamos 31 como evidencia, también hubieramos aceptado 32, 33, 34...48, entonces,
+#calculemos la probabilidad de obtener 31 o mas "a mano".
+sum(dbinom(31:48, 48, prob = 0.5)) 
 
 #Otra hipotesis alternativa podria ser que la droga cambia la probabilidad de 0.5 de obtener F o M, pero sin
 #indicar cual tiene mas probabilidad y cual menos (sin indicar la direccion del cambio).
@@ -46,14 +62,27 @@ sum(dbinom(0:17, 48, prob = 0.5)) + sum(dbinom(31:48, 48, prob = 0.5))
 #esto se conoce como test a dos colas, mientras que en el caso anterior, se conoce como test a una cola
 
 #Veamos como hacer este test usando funciones de R en lugar de hacerlo a mano.
-binom.test(17, 48, p = 0.5, "less") #a una cola
+binom.test(17, 48, p = 0.5, "less") #tenemos menos chances que 50%
 
-binom.test(17, 48, p = 0.5, "two.sided") #a dos colas
+binom.test(17, 48, p = 0.5, "two.sided") #tenemos distinta chances que 50%
 
+binom.test(31, 48, p = 0.5, alternative = "greater") #tenemos mas chances que 50%
 #Veamos las salidas de estos tests.
+#¿Que indica el pvalue?
+#¿Que indica el intervalo de confianza?
+#¿Que indica sample estimates: probability of success?
+
+
 #Este test se llama "test exacto de bondad de ajuste" o "exact test of goodness-of-fit" y se usa cuando tenemos
 #una variable nominal con dos niveles (por ejemplo F y M), pocas observaciones y un modelo teorico de lo que 
 #esperamos que de.
+#-------------------------------------------
+#Si no podemos rechazar la hipotesis nula, eso significa que no hay efecto? o no necesariamente?
+#Probemos con una muestra mas grande, de 96
+#Droga 3: 62 F 34 M
+binom.test(34, 96, p = 0.5, "two.sided") #a dos colas
+#¿Qué podemos decir del pvalue y del intervalo de confianza comparado con la muestra de 48?
+
 
 #Veamos otros tests que se suelen utilizar y como hacerlos.
 
@@ -88,123 +117,30 @@ chisq.test(pacientes$tratado, pacientes$infectado, correct=FALSE)
 #Descartamos que sea independiente la infección de la vacuna.
 
 
+#Se quiere probar una droga que supuestamente incrementa el peso corporal en mamiferos.
+#Para ello se inyecto a 50 ratoncitos mus musculus la droga y se los peso luego de dos semanas.
+#El peso promedio de un ratoncito es de 19 g.
+#Cargamos los datos
+ratoncitos <- read.csv("ratoncitos1.csv")
+View(ratoncitos)
+#Graficamos histograma, boxplot y calculamos medidas
+hist(ratoncitos$weight)
+boxplot(ratoncitos$weight)
+mean(ratoncitos$weight)
+sd(ratoncitos$weight)
 
-#Veamos que estos datos cumplen normalidad. Usamos el test de shapiro-wilk que testea justamente eso
-
-#H0: Los datos son normales
-#H1: Los datos no son normales
-shapiro.test(alturasHolanda)
-
-#Cumplen normalidad, podemos usar t Test. Pero antes, elijamos un nivel de significancia (usualmente 0.05)
-#H0: alturaMedia = 175 
-#H1: alturaMedia != 175
-?t.test
-t.test(alturasHolanda, mu = 175)
-mean(alturasHolanda)
-
-#Algunas personas interpretan el pvalue como una medida del efecto observado. ¿Será correcta esta interpretación? Veamos
-#Simulemos un efecto, por ejemplo, el de una hormona de crecimiento aplicada a un hongo.
-#Simulemos la población no tratada y la tratada, y supongamos que hubo un efecto en la tratada
-set.seed(123456)
-no_tratada <- rnorm(10, mean = 10, sd = 1)
-tratada    <- rnorm(10, mean = 11, sd = 1)
-shapiro.test(tratada)
-shapiro.test(no_tratada)
-t.test(no_tratada, tratada)
-#H0 las medias son iguales
-#H1 las medias son distintas
-#¿Qué pasó? ¿Por qué? ¿recuerdan el nombre de este tipo de errores?
-
-#Aumentemos el tamaño de la muestra
-set.seed(123456)
-no_tratada <- rnorm(15, mean = 10, sd = 1)
-tratada    <- rnorm(15, mean = 11, sd = 1)
-shapiro.test(tratada)
-shapiro.test(no_tratada)
-t.test(no_tratada, tratada)
-
-#y ahora, ¿Qué pasó? ¿Por qué? ¿Cambió el efecto acaso?
-
-#Aumentemos aún más el tamaño de la muestra
-set.seed(123456)
-no_tratada <- rnorm(100, mean = 10, sd = 1)
-tratada    <- rnorm(100, mean = 11, sd = 1)
-shapiro.test(tratada)
-shapiro.test(no_tratada)
-t.test(no_tratada, tratada)
-
-#Entonces, ojo, un pvalue más chico no nos dice que tenemos un efecto más grande! 
-#Cambiando nuestro experimento podemos manipular el pvalue, manteniendo el mismo tamaño de efecto
-#Veamos que pasa si el efecto fuera más chico
-set.seed(123456)
-no_tratada <- rnorm(100, mean = 10, sd = 1)
-tratada    <- rnorm(100, mean = 10.1, sd = 1)
-shapiro.test(tratada)
-shapiro.test(no_tratada)
-t.test(no_tratada, tratada)
-
-#¿Qué pasó?
-#Mejoremos el experimento
-set.seed(123456)
-no_tratada <- rnorm(1000, mean = 10, sd = 1)
-tratada    <- rnorm(1000, mean = 10.1, sd = 1)
-shapiro.test(tratada)
-shapiro.test(no_tratada)
-t.test(no_tratada, tratada)
-
-set.seed(123456)
-no_tratada <- rnorm(10000, mean = 10, sd = 1)
-tratada    <- rnorm(10000, mean = 10.1, sd = 1)
-shapiro.test(tratada)
-shapiro.test(no_tratada)
-t.test(no_tratada, tratada)
-
-#¿Y si no hubiera efecto?
-set.seed(123456)
-no_tratada <- rnorm(100000, mean = 10, sd = 1)
-tratada    <- rnorm(100000, mean = 10, sd = 1)
-t.test(no_tratada, tratada)
-
-#Bueno, por suerte no era un artefacto del experimento. Pero con una significancia de 0.05, qué pasa si repetimos el experimento 100 veces?
-set.seed(123456)
-pvalues <- c()
-for(i in 1:100){
-  no_tratada <- rnorm(1000, mean = 10, sd = 1)
-  tratada    <- rnorm(1000, mean = 10, sd = 1)
-  pvalues <- c(pvalues, t.test(no_tratada, tratada)$p.value)
-}
-table(pvalues < 0.05)
-#¿Qué pasó? ¿Qué tipo de errores observamos?
-
-#Sigamos analizando la salida del test, volviendo a las alturas en Holanda
-t.test(alturasHolanda, mu = 175)
-
-#¿Qué es el intervalo de confianza de 95%?
-#El mismo test nos estima la media de la población de la muestra que tomamos. Nos dice que la estima en 181.3 cm pero nos da algo mejor, nos da un intervalo
-#de confianza del 95%, entre 180.23 cm hasta 182.37 cm. ¿Esto significa que hay un 95% de probabilidades de que la media real de la población de Holanda esté
-#en este intervalo? No! La media de la población no es una variable aleatoria, o está en el intervalo o no está. Lo que nos dice ese intervalo es que si 
-#tomamos 100 muestras y construimos el intervalo de confianza de 95%, esperamos que en el 95% de los casos la media de la población 
-#esté contenida en el intervalo.
-#Probemosló con nuestro laboratorio. Supongamos que la media de altura de la población de Holanda es 182 cm con un desvío de 7cm y tomemos 100 muestras.
-set.seed(1234567)
-mediaReal <- 182
-aciertos <- 0
-aciertos_pval <- 0
-muestras <- 100
-for(i in 1:muestras){
-  alturasHolanda <- rnorm(10, mean = mediaReal, sd = 7)
-  testDeAltura <- t.test(alturasHolanda, mu = 175)
-  if((testDeAltura$conf.int[1] < mediaReal & mediaReal < testDeAltura$conf.int[2]) & testDeAltura$p.value < 0.05){
-    aciertos <- aciertos + 1
-  }
-}
-aciertos
-
+#La media es diferente a 19 g, pero sera significativamente diferente?
+#Usamos el t-test. Este test nos permite comparar la media de nuestra muestra con la media esperada.
+#Para usarlo, tenemos que tener una muestra grande (> 30) o tener una muestra con distribucion normal.
+#Tenemos una muestra grande, lo usamos.
+#H0: La media muestral de los pesos es 19 g
+#H1: La media muestral de los pesos es mayor a 19 g
+t.test(ratoncitos$weight, alternative = "greater", mu = 19)
 
 #Queremos estudiar el efecto de dos tratamientos en el crecimiento de una planta. Para ello contamos con plantas a las que se las trató con un placebo, plantas
 #tratadas con la droga1 y plantas tratadas con la droga 2. ¿Cómo podemos saber si el tratamiento 1 o el tratamiento 2 fue efectivo?
-#Usemos un t Test de dos muestras independientes para comparar el control con tratamiento 1 y el control con tratamiento 2. Además de lo que le habíamos
-#pedido al t Test de una muestra (independencia, datos continuos, normalidad y sin outliers), la varianza de los dos grupos tiene que ser la misma.
+#Usemos un t Test de dos muestras independientes para comparar el control con tratamiento 1 y el control con tratamiento 2. Además de ser normales e independientes,
+#la varianza de los dos grupos tiene que ser la misma.
 
 #Cargamos los datos
 plantas <- datasets::PlantGrowth
@@ -214,11 +150,11 @@ boxplot(weight ~ group, data = plantas)
 
 #Para testear que las dos varianzas sean iguales (homogeneidad de varianzas) podemos usar el test de bartlett.
 #H0: Los datos tienen igual varianza
-#H1: Los datos no  tienen igual varianza
+#H1: Los datos no tienen igual varianza
 bartlett.test(list(plantas$weight[plantas$group == "ctrl"], plantas$weight[plantas$group == "trt1"]))
 bartlett.test(list(plantas$weight[plantas$group == "ctrl"], plantas$weight[plantas$group == "trt2"]))
 
-#Chequeamos previamente normalidad de cada variable
+#Para testear que cada variable sea normal
 shapiro.test(plantas$weight[plantas$group == "ctrl"])
 shapiro.test(plantas$weight[plantas$group == "trt1"])
 shapiro.test(plantas$weight[plantas$group == "trt2"])
@@ -237,9 +173,27 @@ View(iris)
 #Comparamos setosa con versicolor en el largo del sépalo
 shapiro.test(iris$Sepal.Length[iris$Species == "setosa"])
 shapiro.test(iris$Sepal.Length[iris$Species == "versicolor"])
+
 #Veamos si cumplen homogeneidad de varianza
 bartlett.test(list(iris$Sepal.Length[iris$Species == "setosa"], iris$Sepal.Length[iris$Species == "versicolor"]))
 
-#Ups! Qué podemos hacer? Usar el test de welch
+#Ups! Qué podemos hacer? Usar el test de welch, que testea lo mismo que un t-test pero soporta varianzas distintas
 t.test(iris$Sepal.Length[iris$Species == "setosa"], iris$Sepal.Length[iris$Species == "versicolor"], var.equal = F)
+
+#Veamos un ejemplo con muchas categorias.
+#Cargamos el archivo de tamanios (Aam) de mejillones en distintos lugares (Location)
+mejillones <- read.csv(file = "mejillones.csv")
+View(mejillones)
+table(mejillones$Location)
+
+#Usamos anova para comparar la media de los distintos grupos
+boxplot(Aam ~ Location, mejillones)
+summary(aov(Aam ~ Location, mejillones))
+
+#Hay muchisimos tests para muchisimos casos distintos, les recomendamos fuertemente que lean
+#McDonald J. (2014). HANDBOOK OF BIOLOGICAL STATISTICS, SPARKY HOUSE PUBLISHING. (http://www.biostathandbook.com/HandbookBioStatThird.pdf)
+#Esta online y es gratuito, junto con como realizar los distintos tests en r
+#Mangiafico S. (2015), AN R COMPANION FOR THE HANDBOOK OF BIOLOGICAL STATISTICS, New Brunswick, Rutgers University (http://rcompanion.org/documents/RCompanionBioStatistics.pdf)
+
+
 
