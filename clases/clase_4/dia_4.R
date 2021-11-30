@@ -57,6 +57,37 @@ binom.test(17, 48, p = 0.5, "two.sided") #a dos colas
 
 #Veamos otros tests que se suelen utilizar y como hacerlos.
 
+#Mucho se habló de la publicación (o no publicación) de los resultados de la vacuna sputnik v.
+#Finalmente, los resultados se publicaron el 2 de febrero en The Lancet, en
+#Safety and efficacy of an rAd26 and rAd5 vector-based heterologous prime-boost COVID-19 vaccine: an interim analysis 
+#of a randomised controlled phase 3 trial in Russia. Logunov et al.
+#https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(21)00234-8/fulltext
+#En el texto nos cuentan que hicieron un ensayo doble ciego con 21977 adultos, de los cuales 16501 fueron vacunados con la sputnik y 5476 recibieron placebo.
+#Luego de 21 días, de 14964 participantes vacunados, 16 contrajeron COVID-19, mientras que de 4902 del grupo placebo, 62 lo contrajeron.  
+#Carguemos la tabla de pacientes
+pacientes <- read.table(file = "sputnik.txt", sep = "\t", header = T)
+head(pacientes)
+View(pacientes)
+
+#Contemos cuantos pacientes fueron tratados
+table(pacientes$tratado)
+
+#Contemos cuantos pacientes se infectaron
+table(pacientes$infectado)
+
+#Veamos como es la relacion entre ambas, llamada tabla de contingencia:
+table(pacientes$tratado, pacientes$infectado)
+
+#Podemos utilizar un test de chi cuadrado para ver si son independientes la infección y la vacuna. El test
+#de chi cuadrado requiere que todos los valores esperados en la tabla de contingencia sean mayores a 5.
+#R nos va a avisar si no se cumple la condición. En ese caso, podemos usar el test exacto de fisher fisher.test()
+#H0: Las dos variables son independientes
+#H1: Las dos variables no son independientes
+
+chisq.test(pacientes$tratado, pacientes$infectado, correct=FALSE)
+#Descartamos que sea independiente la infección de la vacuna.
+
+
 
 #Veamos que estos datos cumplen normalidad. Usamos el test de shapiro-wilk que testea justamente eso
 
@@ -150,7 +181,7 @@ t.test(alturasHolanda, mu = 175)
 
 #¿Qué es el intervalo de confianza de 95%?
 #El mismo test nos estima la media de la población de la muestra que tomamos. Nos dice que la estima en 181.3 cm pero nos da algo mejor, nos da un intervalo
-#de confianza del 98%, entre 180.23 cm hasta 182.37 cm. ¿Esto significa que hay un 95% de probabilidades de que la media real de la población de Holanda esté
+#de confianza del 95%, entre 180.23 cm hasta 182.37 cm. ¿Esto significa que hay un 95% de probabilidades de que la media real de la población de Holanda esté
 #en este intervalo? No! La media de la población no es una variable aleatoria, o está en el intervalo o no está. Lo que nos dice ese intervalo es que si 
 #tomamos 100 muestras y construimos el intervalo de confianza de 95%, esperamos que en el 95% de los casos la media de la población 
 #esté contenida en el intervalo.
@@ -212,25 +243,3 @@ bartlett.test(list(iris$Sepal.Length[iris$Species == "setosa"], iris$Sepal.Lengt
 #Ups! Qué podemos hacer? Usar el test de welch
 t.test(iris$Sepal.Length[iris$Species == "setosa"], iris$Sepal.Length[iris$Species == "versicolor"], var.equal = F)
 
-#Mucho se habló de la publicación (o no publicación) de los resultados de la vacuna sputnik v.
-#Finalmente, los resultados se publicaron el 2 de febrero en The Lancet, en
-#Safety and efficacy of an rAd26 and rAd5 vector-based heterologous prime-boost COVID-19 vaccine: an interim analysis 
-#of a randomised controlled phase 3 trial in Russia. Logunov et al.
-#https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(21)00234-8/fulltext
-#En el texto nos cuentan que hicieron un ensayo doble ciego con 21977 adultos, de los cuales 16501 fueron vacunados con la sputnik y 5476 recibieron placebo.
-#Luego de 21 días, de 14964 participantes vacunados, 16 contrajeron COVID-19, mientras que de 4902 del grupo placebo, 62 lo contrajeron.  
-#Armemos la tabla de datos
-pacientes <- data.frame(tratado = c(rep(TRUE, 14964), rep(FALSE, 4902)), 
-                        infectado = c(rep(TRUE, 16), rep(FALSE, (14964-16)), rep(TRUE, 62), rep(FALSE, (4902-62))))
-head(pacientes)
-#Se obtuvo la siguiente tabla (llamada tabla de contingencia):
-table(pacientes$tratado, pacientes$infectado)
-
-#Podemos utilizar un test de chi cuadrado para ver si son independientes la infección y la vacuna. El test
-#de chi cuadrado requiere que todos los valores esperados en la tabla de contingencia sean mayores a 5.
-#R nos va a avisar si no se cumple la condición. En ese caso, podemos usar el test exacto de fisher fisher.test()
-#H0: Las dos variables son independientes
-#H1: Las dos variables no son independientes
-
-chisq.test(pacientes$tratado, pacientes$infectado, correct=FALSE)
-#Descartamos que sea independiente la infección de la vacuna.
