@@ -4,132 +4,69 @@ author: "Maximiliano S. Beckel"
 date: "28/9/2020"
 output: html_document
 ---
+##Limpieza de datos
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+Antes de comenzar a realizar el análisis estadísticos de nuestros datos, siempre tenemos que asegurarnos que las tablas con las que trabajamos estan bien. Esto quiere decir que no haya ningun dato faltante, filas duplicadas ni datos que no tengan sentido
 
-## Estructuras de control
-
-Las `estructuras de control` nos permiten controlar el flujo de ejecución de una secuencia de comandos. Así podremos aplicar, por ejemplo, una determinada acción a los distintos elementos de una tabla o un vector. En la clase de hoy nos vamos a concentrar en las estructuras de control más utilizadas en `R`: `if` y `for`
+Vamos a abrir la tabla camas-criticas.csv, donde se muestra la cantidad de camas criticas en centros de salud de la Prov. Buenos Aires entre 2009 y 2017
 
 
-#Condición `if ... else`
+```{r limpieza1}
 
-La estructura `if ... else` nos permite realizar diferentes acciones dependiendo de si se cumple o no una determinada condición.
+camas <- read.csv("camas_criticas_ba.csv")
 
-A continuación, queremos saber si un determinado número es par o impar. Para esto le tenemos que "preguntar" al número si es par, en tal caso vamos a querer imprimir en pantalla "El número es par", de lo contrario será impar, por lo que imprimiremos "El número es impar". Para hacer esto usaremos como condición `numero%%2 == 0`. La expresión `%%` nos devuelve el resto de una división. En este caso, si el resto de dividir un número por 2 es igual a 0, eso nos quiere decir que es par, por lo que lo vamos a tomar como condición en nuestra estructura de control.
-
-```{r control1}
-numero = 10
-if (numero%%2 == 0){
-  print("El numero es par")
-}else{
-  print("El numero es impar")
-}
+#Veamos un poco como son nuestros datos
+head(camas)
+dim(camas)
 
 ```
 
-Esta es otra forma pero imprimiendo de otra manera los resultados (más fachero)
-```{r control2}
-numero = 10
-if (numero%%2 == 0){
-  print(paste("El numero", numero, "es par"))
-}else{
-  print(paste("El numero", numero, "es impar"))
-}
+Lo primero que podemos ver es si hay algun dato faltante en la tabla, para eso vamos a buscar si hay NAs
 
+```{r limpieza2}
+
+#primera opcion...
+
+#is.na(camas)
+#is.na(camas$cantidad_camas_criticas)
+
+any(is.na(camas$cantidad_camas_criticas))
+
+#segunda opcion...
+
+#complete.cases(camas)
+
+any(!complete.cases(camas))
+
+#vamos a eliminar las filas que contienen NAs
+camas <- camas[complete.cases(camas), ]
+nrow(camas)
 ```
 
+Ahora vamos a ver si hay filas duplicadas en nuestra tabla y, en caso de que las haya, las vamos a eliminar
+```{r limpieza3}
+#duplicated(camas)
+any(duplicated(camas))
 
-#Bucle `For`
-
-Los bucles for toman una variable a la que se le asignan los elementos de un objeto (en general, vectores o listas) en forma sucesiva a medida que se van recorriendo los ciclos.
-
-Vamos a usar un ejemplo: queremos saber cuánto vale la suma de los primeros 100 números naturales, para eso tenemos que tener una variable que vaya acumulando el resultado de la suma en cada iteracion (`n`),y otra variable que vaya recorriendo los números desde 1 hasta 100 (`i`)
-
-```{r control3}
-n=0
-for (i in 1:100){
-  n=n+i
-}
-print(n)
+camas <- camas[!duplicated(camas), ]
+nrow(camas)
 ```
 
-¿Hay alguna forma de hacer lo mismo sin utilizar un bucle?
-```{r control4}
-sum(1:100)
+Por ultimo, es importante chequear que los datos que estan en nuestra tabla tienen sentido...
+
+Por ejemplo, vamos a ver los valores que aparecen en la variable "cantidad_camas_criticas"
+
+```{r limpieza4}
+#summary devuelve un resumen de varias caracteristicas estadisticas de nuestros datos
+summary(camas$cantidad_camas_criticas)
+
+#El minimo valor que figura es -1, eso tiene sentido? Vamos a eliminar las filas que tengan un valor menor a 0
+camas <- camas[camas$cantidad_camas_criticas < 0, ]
 ```
 
-Vamos con un ejemplo un poco más complicado, que combine el uso de `ìf ... else` y `for`.
-Queremos guardar en una variable la suma de los números pares desde 1 a 100 y en otra variable la suma de los números impares. En este caso vamos a necesitar un `for` para ir recorriendo los distintos números del 1 al 100 y un `if ... else` que me permita evaluar si un número es par o impar.
-
-```{r control5}
-pares   = 0
-impares = 0
-
-for (i in 1:100){
-  if (i%%2 == 0)
-    pares = pares + i
-  else{
-    impares = impares +i
-  }
-}
-
-print(pares)
-print(impares)
-
-```
-
-¿Hay alguna forma de hacer lo mismo pero sin utilizar un `for` ni un `if ... else`?
-```{r control6}
-pares = sum(seq(2, 100, by = 2))
-print(pares)
-impares = sum(seq(1, 100, by = 2))
-print(impares)
-```
-
-
-## Funciones
-
-En `R` a demás de todas las funciones con las que contamos, podemos crear nosotros mismos nuevas funciones. Esto es particularmente útil cuando vayamos a querer aplicar el mismo análisis a diferentes conjuntos de datos.
-
-Vamos con un primer ejemplo sencillo para definir una función en `R`: queremos hacer una función que tome como argumentos dos números y me devuelva la suma entre ambos.
-
-```{r funcion1}
-sumar <- function(x, y){
-  suma <- x+y
-  return(suma)
-}
-
-```
-
-Una vez que creamos la función la podemos usarla con los números que nosotros querramos y asignar el resultado de la misma a una variable.
-```{r funcion2}
-sumar(2, 3)
-
-total <- sumar(2, 3)
-print(total)
-
-```
-
-Ahora podemos combinar las distintas cosas que fuimos viendo a lo largo de la clase. En el siguiente ejemplo queremos crear una función que sume todos los números desde 1 hasta algún determinado valor. Para esto vamos a utilizar un `for`
-```{r funcion3}
-sumar_hasta <- function(n){
-  suma_i <- 0
-  for(i in 1:n){
-    suma_i = suma_i + i
-  }
-  return(suma_i)
-}
-
-```
-
-Y ahora podemos utilizarla con el número que querramos
-```{r funcion4}
-sumar_hasta(100)
-sumar_hasta(872)
-
+Por ultimo, vamos a guardar la tabla luego de la limpieza que hicimos 
+```{r limpieza5}
+#write.csv(camas2017, file = "camas_criticas_ba_ok.csv")
 ```
 
 ## Uso de paquetes en R
@@ -156,29 +93,42 @@ A continuación, vamos a instalar `Bioconductor` y, luego, uno de los paquetes q
 Poder cargar en R nuestros datos es el primer paso que vamos a tener que hacer en la mayor parte de los casos, al igual que vamos a querer exportar nuestros datos en algún archivo que pueda ser leido por alguien que no sepa usar `R` (porque no hizo este curso).
 Dependiendo de cuál es el formato de los archivos que querramos importar/exportar vamos a tener que usar distintas funciones. 
 
-Vamos a retomar el ejemplo de la clase pasada. Queremos guardar la tabla filtrada del experimento de las plantas en un formato que pueda ser abierto en un Excel, en este caso un .csv (comma separated values)
+Vamos a subsetear la tabla camas para quedarnos solamente con los datos correspondientes al ano 2017 y despues vamos a querer exportarla en distintos formatos.
 ```{r importar1} 
-plantas <- PlantGrowth
-plantas_filtadas <- plantas[plantas$weight > 5.5 | plantas$weight < 4.5, ]
+camas2017 <- camas[camas$anio == 2017, ]
 
-#write.csv(x = plantas_filtadas, file = "plantas_filtradas.csv")
+#Exportamos como un archivo delimitado por comas (csv)
+
+#write.csv(camas2017, file = "camas_criticas_ba_2017.csv", row.names = FALSE)
+
+#Expotamos como una tabla separada por tabs
+
+#write.table(camas2017, file = "camas_criticas_ba_2017.txt", row.names = FALSE)
+
+#Usando el paquete openxlsx tambien podemos exportarlo como un archivo excel
+
+library(openxlsx)
+#write.xlsx(camas2017, file = "camas_criticas_ba_2017.xlsx", row.names = FALSE)
+
 ```
 
-Por otro lado, se pueden guardar objetos de R para poder usarlos más tarde en una nueva sesión. A continuación guardamos en un archivo con la extensión `.RData`, los dos alineamientos múltiples que generamos anteriormente:
+Por otro lado, se pueden guardar objetos de R para poder usarlos más tarde en una nueva sesión. A continuación guardamos en un archivo con la extensión `.RData`:
 ```{r importar2} 
-#save(msa, msa2, file = "alineamientos.RData")
+#save(camas, camas2017, file = "camas_criticas_ba_ok.RData")
 
 ```
 Y cuando querramos volver a cargar en una nueva sesión de `R`, solo tendremos que usar la función `load()`:
 ```{r importar3} 
-#load("alineamientos.RData")
+#load("camas_criticas_ba_ok.RData")
 
 ```
 
-Para importar datos hacia una sesión de `R` también es muy sensillo y dependerá del tipo de archivo que sea: .csv, .txt, .fasta, etc. 
+Para importar datos hacia una sesión de `R` también es muy sencillo y dependerá del tipo de archivo que sea: .csv, .txt, .fasta, etc. 
 Veamos un ejemplo cargando la tabla que acabamos de exportar:
 ```{r importar4} 
-#tabla_plantas <- read.csv("plantas_filtradas.csv")
+#camas <- read.csv("camas_criticas_ba_2017.csv")
+#camas <- read.table("camas_criticas_ba_2017.txt")
+#camas <- read.xlsx("camas_criticas_ba_2017.xlsx")
 ```
 
 ## Ejemplo Integrador
@@ -273,33 +223,13 @@ Como lo hacemos? Tenemos varias opciones...
 #2)Podemos agregar las secuencias ya alineadas como una nueva columna en la tabla original y exportar todo junto
 
 #fungi_EEF2$align <- as.character(msa)#Noten que tengo que cambiar el tipo de variable que tenia el msa
-#write.csv(fungi_EEF2, file = "fungi_EEF2_align.csv")
+#write.xlsx(fungi_EEF2, file = "fungi_EEF2_align.xlsx")
 
 #3)Tambien podriamos buscar de guardarlo en algun formato que sea mas amigable a 
 #la hora de querer trabajar con ese MSA en otros programas, como el formato FASTA.
 #Pero no tengo idea de como exportar datos en formato FASTA desde R, acaso Google tendra la respuesta?...
 
 ```
-##BONUS TRACK para los amantes de excel...
 
-Hay muchisimas formas de importar y exportar datos en formato de planilla de excel.
-En general, se requiere de algún paquete que nos ayude.
-
-Entre los archivos de la clase de hoy tienen la misma tabla que usamos antes pero en una planilla de Excel, vamos a importarla...
-Vamos a usar el siguiente paquete:
-
-```{r ejemplo12} 
-#install.packages("openxlsx")
-#library(openxlsx)
-
-#Y ahora si estamos listos para importar nuestra tabla a R.
-
-#fungi_EEF2_excel <- read.xlsx("fungi_EEF2.xlsx")
-#head(fungi_EEF2_excel)
-
-#Tambien podemos exportar la tabla que creamos con el resultado del MSA
-
-#write.xlsx(fungi_EEF2, file = "fungi_EEF2_align.xlsx")
-```
 
 La clase que viene vamos a ver cómo podemos realizar una exploración estadística de nuestros datos con `R`.
