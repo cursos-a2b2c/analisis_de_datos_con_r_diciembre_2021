@@ -12,6 +12,7 @@
 * [Script de R](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_2/dia_2.R)  
 * [Cuadernillo](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_2/curso_r_dia2.Rmd)  
 * [Datasets (descomprimir en la misma carpeta)](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_2/datasets.zip)  
+* [Clase grabada](https://youtu.be/9P06axf4KyA)
 
 ### Clase 2 bonus (para leer por su cuenta): For, if y definir nuestrar propias funciones
 * [Script de R](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_2/dia_bonus.R)  
