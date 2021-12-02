@@ -20,13 +20,18 @@
 
 
 ### Clase 3: Introducción a la estadística descriptiva
+* [Práctica](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_3/practica_dia_3.docx)  
+* [Práctica resuelta](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_3/solucion_practica_dia_3.R)    
+* [Script de R](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_3/Dia3.R)  
+* [Dataset](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_3/exp_mtx.Rdata)
+* [Presentación](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_3/Dia3.pdf)  
 
 ### Clase 4: Breve introducción a las pruebas de hipótesis (con R).
 * [Práctica](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_4/practica_dia_4.pdf)  
 * [Práctica resuelta](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_4/solucion_practica_dia_4.R)    
 * [Script de R](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_4/dia_4.R)  
 * [Datasets (descomprimir en la misma carpeta)](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_4/datasets.zip)  
-* [Presentación](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_4/dia_4.zip)  
+* [Presentación](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_4/dia_4.pdf)  
 
 ### Clase 5: Introducción a Machine learning: aprendizaje supervisado.
 
