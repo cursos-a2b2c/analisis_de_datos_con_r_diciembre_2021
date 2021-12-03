@@ -1,0 +1,178 @@
+Reference_Number,Age,Gender,Citizen,Ethnicity,English,Degree,Extraversion,Agreeable,Conscientious,Neuroticism,Openness,Meditation,Mindfulness,Motivation,Brexit_Identity,Identity_Strength,Treatment,Depression_T1,Depression_T2,Depression_T3,Anxious_T1,Anxious_T2,Anxious_T3
+1,18,Female,British citizen,Asian or Asian British,Yes,Undergraduate,5,1.5,3,5,5,Yes,No,5,Remain,4.1999998,1,12,,,12,,
+2,19,Male,British citizen,White,Yes,Undergraduate,5.5,2.5,3,4,4,No,No,7,Remain,3.2,1,5,9,6,11,8,10
+3,26,Male,Other,Asian or Asian British,Yes,PhD,3,4,6,2.5,5.5,Yes,No,6,Remain,3,1,4,,,4,,
+4,20,Female,EU citizen,White,Yes,Undergraduate,5.5,3.5,7,5,5.5,Yes,No,6,Remain,3.5999999,1,11,4,10,16,10,14
+5,28,Female,EU citizen,Mixed,Yes,Taught masters,7,4,4.5,6,5,Yes,No,7,Remain,3,1,11,11,9,11,10,8
+6,21,Male,British citizen,White,Yes,Undergraduate,6.5,4,3,2,5.5,No,No,7,Remain,4,1,14,10,4,9,10,4
+7,22,Female,British citizen,White,Yes,Undergraduate,5.5,3.5,6,5,5.5,Yes,No,1,Remain,2.8,1,18,12,10,17,14,10
+8,21,Male,British citizen,White,Yes,Undergraduate,4.5,4,1.5,5,6.5,No,No,7,Remain,2,1,13,6,8,10,7,10
+9,31,Male,EU citizen,White,No,PhD,2,3,4,5,3.5,Yes,Yes,6,Remain,3.5999999,1,9,10,11,12,12,12
+10,21,Female,British citizen,Black or Black British,Yes,Undergraduate,7,4,4.5,5,6.5,Yes,No,7,Remain,3.5999999,1,5,4,4,4,4,4
+11,21,Female,British citizen,White,Yes,Undergraduate,5,3.5,4,4.5,5,No,No,7,Remain,3,1,9,6,4,9,6,4
+12,26,Female,British citizen,White,Yes,Taught masters,4.5,4,3,5.5,5.5,No,No,7,Remain,3.2,1,11,8,8,15,9,8
+13,21,Male,Other,Asian or Asian British,No,Undergraduate,6.5,3.5,7,2.5,6.5,No,No,7,Remain,3.4000001,1,8,17,,9,18,
+14,19,Female,British citizen,White,Yes,Undergraduate,6.5,2.5,6.5,2.5,4.5,Yes,No,7,Remain,2.5999999,1,8,9,,9,6,
+15,18,Male,British citizen,White,Yes,Undergraduate,4,3.5,5.5,5.5,4.5,No,No,7,Remain,3.5999999,1,12,5,12,18,14,12
+16,18,A gender not listed here (please specify),British citizen,White,Yes,Undergraduate,2,3,6,5,3.5,Yes,No,7,Remain,4.4000001,1,10,10,13,16,19,18
+17,30,Female,EU citizen,Mixed,No,Taught masters,6,2,6.5,4,4,Yes,No,6,Remain,4.4000001,1,15,8,9,11,9,12
+18,18,Female,British citizen,White,Yes,Undergraduate,5,1.5,6,6.5,4,No,No,7,Remain,3,1,20,16,20,20,15,20
+19,20,Female,British citizen,White,Yes,Undergraduate,5.5,4,6,4,5,Yes,No,7,Remain,4.4000001,1,7,5,4,13,10,8
+20,26,Female,Other,White,No,PhD,6.5,4,6,5,5,Yes,No,6,Remain,3,1,14,9,8,17,12,9
+21,19,Female,British citizen,White,Yes,Undergraduate,5,4,2.5,4,6.5,Yes,No,7,Remain,3.4000001,1,8,11,9,6,11,12
+22,20,Male,British citizen,White,Yes,Undergraduate,2.5,2,5,6,5.5,No,No,6,Remain,3.8,1,11,12,12,12,10,12
+23,21,Female,Other,Asian or Asian British,No,Undergraduate,4,2.5,3.5,3.5,6.5,Yes,No,7,Remain,2.5999999,1,4,4,5,6,4,6
+24,26,Male,Other,Other ethnic group,Yes,PhD,4.5,2,4.5,1,6.5,Yes,Yes,7,Remain,2.5999999,1,16,18,19,12,15,14
+25,19,Female,British citizen,White,Yes,Undergraduate,5.5,2.5,6,2,5,No,No,7,Remain,3.5999999,1,10,15,14,13,11,15
+26,22,Female,Other,Mixed,Yes,Taught masters,2,4,5,4.5,4.5,Yes,No,6,Remain,3,1,9,8,8,12,10,8
+27,22,Female,EU citizen,White,No,Taught masters,2.5,3.5,4,4,4,No,No,7,Remain,2.5999999,1,12,12,12,15,12,12
+28,19,Male,British citizen,White,Yes,Undergraduate,4,3,2,3,6.5,Yes,No,6,Remain,2.8,1,10,16,12,9,16,12
+29,28,Female,Other,White,Yes,Taught masters,7,3.5,5,3,6,Yes,No,6,Remain,3.5999999,1,6,,8,8,,8
+30,20,Female,British citizen,Mixed,Yes,Undergraduate,6.5,4,6.5,4,6.5,Yes,No,6,Leave,3.5999999,1,16,6,5,14,5,4
+31,19,Male,British citizen,White,Yes,Undergraduate,7,3,5,2,6,Yes,No,7,Remain,3,1,4,4,4,6,4,5
+32,20,Female,British citizen,White,Yes,Undergraduate,5,3,2,6.5,6,No,No,7,Remain,3,1,10,7,,14,13,
+33,33,Female,EU citizen,White,No,PhD,7,2.5,3.5,6,4.5,Yes,No,7,Remain,2.4000001,1,12,7,,16,7,
+34,25,Female,EU citizen,White,Yes,PhD,4,3.5,5,4.5,5,No,No,7,Remain,3.4000001,1,12,11,11,17,12,13
+35,18,Female,British citizen,White,Yes,Undergraduate,7,3,5.5,5,1.5,Yes,No,7,Remain,3.5999999,1,6,4,6,12,10,7
+36,20,Male,EU citizen,White,No,Undergraduate,2.5,3,3,2,6,Yes,No,7,Remain,3,1,8,7,5,7,9,9
+37,21,Female,EU citizen,White,No,Taught masters,3,3.5,4,7,6,Yes,No,6,Remain,2.8,1,8,7,4,10,9,4
+38,25,Male,EU citizen,White,No,PhD,4,3,6,6,4,No,No,7,Remain,4.4000001,1,9,13,9,14,10,11
+39,41,Female,Other,White,Yes,Taught masters,2.5,3,7,5.5,6,No,No,7,Remain,3.2,1,9,11,9,11,13,12
+40,21,Female,Other,Mixed,Yes,Undergraduate,5,4,3,5,6.5,Yes,No,7,Remain,3.2,1,9,,9,9,,10
+41,18,Female,British citizen,Black or Black British,Yes,Undergraduate,2,2.5,4.5,4.5,6.5,Yes,No,6,Remain,2.5999999,1,11,11,5,13,11,10
+42,21,Female,British citizen,White,Yes,Undergraduate,5.5,2,4,5.5,5,Yes,No,6,Remain,2.8,1,18,12,10,17,11,10
+43,25,Male,British citizen,White,Yes,PhD,2.5,4,5.5,1.5,5,Yes,No,7,Remain,3,1,6,9,9,6,5,7
+44,22,Female,British citizen,Asian or Asian British,Yes,Undergraduate,7,3.5,4.5,2,6.5,Yes,Yes,1,Remain,4.1999998,1,6,5,4,7,4,5
+45,19,Male,British citizen,White,Yes,Undergraduate,3.5,3,5.5,3,5.5,Yes,No,7,Remain,3.8,1,4,6,5,6,8,5
+46,19,Female,British citizen,Mixed,Yes,Undergraduate,4.5,3,5,4.5,4,No,No,6,Remain,3.8,1,15,10,12,15,15,12
+47,23,Female,British citizen,White,Yes,Undergraduate,7,4,6,1.5,5,Yes,No,7,Remain,2.5999999,1,5,4,4,6,5,4
+48,20,Female,British citizen,Mixed,Yes,Undergraduate,2,3,6,3,4,Yes,No,6,Remain,3.5999999,1,11,16,10,8,16,12
+49,23,Female,British citizen,White,Yes,Undergraduate,6,2,3.5,6,6.5,Yes,Yes,6,Remain,3.5999999,1,7,6,16,12,12,18
+50,25,Prefer not to say,Other,White,No,Research masters,4.5,4,4.5,4,4.5,No,No,6,Remain,3.4000001,1,15,,,8,,
+51,20,Female,British citizen,White,Yes,Undergraduate,4.5,4,5,4.5,5,No,No,6,Remain,3.8,1,6,5,5,11,10,7
+52,20,Male,British citizen,White,Yes,Undergraduate,5,2.5,2,5,6,Yes,No,7,Remain,3,1,7,7,7,9,11,11
+53,22,Female,EU citizen,White,No,Taught masters,3.5,5.5,1.5,4,1,Yes,No,7,Remain,4,1,12,7,11,12,8,10
+54,23,Male,British citizen,White,Yes,PhD,4.5,4.5,3,1.5,5.5,Yes,No,6,Remain,2.4000001,1,5,5,4,10,8,6
+55,22,Prefer not to say,Other,Asian or Asian British,No,Taught masters,2,3.5,2.5,6.5,4,No,No,6,Remain,2.4000001,1,14,9,7,10,10,7
+56,19,Female,British citizen,White,Yes,Undergraduate,3.5,3,6,4,4.5,No,No,6,Leave,3.4000001,1,4,5,10,6,6,12
+57,27,Female,British citizen,White,Yes,PhD,4.5,2,5,3.5,4,Yes,Yes,7,Remain,2.4000001,1,9,4,8,8,4,8
+58,22,Female,British citizen,White,Yes,PhD,6.5,4,5.5,3.5,4,No,No,6,Remain,3.8,1,9,11,10,7,9,10
+59,23,Male,Other,Asian or Asian British,No,Taught masters,3,3,5.5,4,4,Yes,No,7,Remain,2.4000001,1,15,16,15,14,16,15
+60,21,Female,British citizen,White,Yes,Undergraduate,5.5,4,2.5,7,3,Yes,No,6,Leave,3.2,1,13,11,14,16,13,11
+61,20,Female,EU citizen,White,Yes,Undergraduate,6.5,2.5,1.5,6,4.5,Yes,No,6,Remain,3.8,1,4,4,4,9,7,6
+62,24,Female,Other,Asian or Asian British,No,Taught masters,4,4,1,7,6.5,Yes,No,7,Remain,2,1,12,14,16,13,12,16
+63,57,Female,British citizen,Asian or Asian British,No,Taught masters,7,3,4.5,2,6,No,No,6,Remain,4.1999998,1,8,,5,10,,6
+64,27,Female,EU citizen,Mixed,No,PhD,5.5,2.5,6,2.5,3.5,Yes,No,6,Remain,4,1,6,4,4,5,4,4
+65,28,Prefer not to say,British citizen,Mixed,No,PhD,4,2.5,4.5,4,4.5,No,No,6,Remain,3.5999999,1,4,,,8,,
+66,31,Male,Other,White,Yes,PhD,3.5,3.5,6,4,4,Yes,No,6,Remain,3.8,1,6,5,5,7,5,6
+67,24,Male,Other,Asian or Asian British,Yes,Undergraduate,4,2.5,3.5,3,6.5,Yes,No,7,Remain,3,1,9,10,14,12,10,15
+68,25,Female,British citizen,White,Yes,PhD,6.5,2.5,4.5,4,4.5,Yes,No,6,Remain,4.1999998,1,8,7,9,12,10,9
+69,19,Female,British citizen,White,Yes,Undergraduate,4,3.5,3.5,5.5,5.5,Yes,No,7,Remain,3.2,1,12,4,9,12,6,13
+70,23,Female,British citizen,White,Yes,PhD,5,2.5,6.5,4,4.5,Yes,No,6,Remain,3,1,5,4,8,8,10,11
+71,22,Female,EU citizen,White,Yes,Undergraduate,3.5,4.5,4,3,4,Yes,No,7,Remain,3,1,11,11,12,11,11,12
+72,29,Male,EU citizen,White,No,PhD,1.5,2.5,4,2.5,3.5,No,No,7,Remain,3.8,1,13,11,11,10,6,8
+73,25,Female,Other,Asian or Asian British,Yes,Research masters,3,2.5,4,4.5,5,No,No,6,Remain,3,1,14,6,10,14,11,11
+74,21,Female,British citizen,Mixed,Yes,Undergraduate,2.5,2.5,4,4,4.5,No,No,6,Remain,2.8,1,7,14,15,11,12,12
+75,21,Female,British citizen,White,Yes,Undergraduate,4.5,2,1.5,7,5,No,No,7,Remain,3.5999999,1,16,,,16,,
+76,20,Female,Other,White,Yes,Undergraduate,6,2,7,3.5,5.5,Yes,No,7,Remain,3.4000001,1,7,11,6,8,11,6
+77,19,Male,British citizen,White,Yes,Undergraduate,5,3.5,5,4,4,Yes,No,6,Remain,2,1,11,11,11,4,7,4
+78,20,Female,British citizen,White,Yes,Undergraduate,4.5,2,4.5,4.5,5,Yes,No,6,Remain,3.2,1,12,7,8,11,11,9
+79,32,Female,EU citizen,White,No,Taught masters,5,3,5,4,4.5,Yes,No,6,Remain,3,1,6,4,,14,10,
+80,21,Male,British citizen,White,Yes,Undergraduate,6,2.5,5.5,5,6.5,Yes,No,7,Remain,2.8,1,10,9,7,16,11,9
+81,27,Male,EU citizen,White,No,Research masters,4,2,3,3,4,No,No,6,Remain,3.4000001,1,13,10,16,15,14,16
+82,19,Female,EU citizen,White,No,Undergraduate,4,2.5,6.5,2,5,Yes,No,7,Remain,2,1,9,9,8,10,10,9
+83,28,Male,EU citizen,White,No,PhD,6,4,7,1,5,No,No,1,Remain,3.5999999,1,4,4,4,4,4,4
+84,21,Prefer not to say,Other,Asian or Asian British,No,Undergraduate,4,4,6.5,2,5.5,Yes,No,6,Remain,3,1,10,9,9,10,8,9
+85,20,Female,British citizen,White,Yes,Undergraduate,2.5,2.5,5,6,4.5,Yes,No,6,Remain,3.5999999,1,6,10,8,4,6,4
+86,22,Female,British citizen,White,No,Taught masters,5,2,1.5,7,3.5,No,No,7,Remain,3.8,1,18,,,20,,
+87,34,Male,Other,White,Yes,PhD,5.5,2,3.5,3,6,Yes,No,7,Remain,2.8,1,7,15,8,9,15,12
+88,21,Female,British citizen,White,Yes,Undergraduate,4,2.5,4.5,7,3,No,No,7,Remain,3.5999999,1,12,12,14,14,8,9
+101,23,Female,Other,White,Yes,Research masters,5.5,1.5,5,6.5,3.5,No,No,7,Remain,3,0,14,17,15,15,14,13
+102,19,Male,EU citizen,White,No,Undergraduate,6.5,4.5,5,2,3.5,Yes,No,7,Remain,4,0,5,4,4,8,8,5
+103,19,Female,EU citizen,White,No,Undergraduate,3.5,4,2.5,2.5,6,No,No,7,Leave,4.4000001,0,10,4,7,14,12,13
+104,33,Female,Other,White,Yes,PhD,1.5,5.5,7,4,6.5,No,No,7,Remain,2.5999999,0,13,11,,15,11,
+105,24,Male,Other,Other ethnic group,No,Taught masters,6.5,1.5,5.5,4,6.5,Yes,No,7,Leave,2.4000001,0,17,15,11,15,19,10
+106,18,Female,Other,Asian or Asian British,No,Undergraduate,2.5,3.5,5.5,3.5,5,Yes,No,2,Leave,3,0,9,9,6,12,12,12
+107,32,Male,EU citizen,White,No,PhD,6,3,4.5,2,5.5,Yes,No,7,Remain,4.4000001,0,4,6,11,6,8,10
+108,25,Male,Other,Other ethnic group,No,PhD,5.5,2.5,6,6.5,6.5,Yes,No,7,Remain,4.1999998,0,8,13,5,8,16,6
+109,18,Female,Other,Asian or Asian British,No,Undergraduate,2.5,2,4,4,4.5,Yes,No,6,Remain,3.2,0,12,13,11,11,13,12
+110,19,Female,British citizen,White,Yes,Undergraduate,1,3.5,6.5,5.5,3.5,Yes,No,7,Remain,3,0,18,20,20,17,17,15
+111,57,Female,EU citizen,White,Yes,PhD,6,3.5,4.5,1.5,6.5,Yes,No,7,Remain,3,0,4,4,5,7,14,16
+112,23,Male,British citizen,White,Yes,Taught masters,6.5,2.5,3,7,6,Yes,No,6,Remain,3.2,0,14,15,12,13,12,11
+113,22,Female,British citizen,White,Yes,Taught masters,5,2,6,4.5,5.5,Yes,No,6,Remain,4.8000002,0,5,10,11,12,10,13
+114,21,Female,British citizen,Other ethnic group,Yes,Undergraduate,7,3,6.5,4,6.5,Yes,No,7,Remain,3.5999999,0,10,9,8,13,13,12
+115,22,Female,British citizen,White,Yes,Research masters,4,3,5.5,2.5,6,Yes,No,6,Remain,3.4000001,0,8,5,6,9,6,10
+116,19,A gender not listed here (please specify),British citizen,White,Yes,Undergraduate,2,5.5,7,6,2.5,Yes,No,6,Remain,4,0,15,10,11,12,10,9
+117,23,Female,British citizen,White,Yes,Taught masters,2,4.5,2,4,4,Yes,No,7,Remain,4,0,14,14,15,14,16,17
+118,52,Female,EU citizen,Black or Black British,No,Research masters,5,4,7,1.5,6.5,Yes,No,6,Remain,3.2,0,4,4,4,4,4,6
+119,40,Male,Other,Black or Black British,Yes,Taught masters,3,2.5,1.5,5.5,4.5,No,No,7,Remain,3.2,0,13,,14,15,,12
+120,23,Female,Other,Asian or Asian British,No,PhD,3,2,4,6,5,No,No,7,Remain,2.8,0,14,13,17,15,13,17
+121,22,Female,British citizen,White,Yes,Undergraduate,6.5,2.5,3,6,6,Yes,No,7,Remain,4,0,14,5,4,14,9,7
+122,22,Female,British citizen,White,Yes,Undergraduate,6,3.5,2.5,5.5,5.5,Yes,No,6,Remain,2.8,0,11,7,11,11,12,13
+123,21,Female,EU citizen,Other ethnic group,No,Undergraduate,7,2,7,2,4,Yes,No,7,Remain,4.4000001,0,10,4,4,13,12,8
+124,30,Female,British citizen,White,Yes,PhD,3.5,3,6.5,4.5,5,Yes,Yes,7,Remain,4,0,4,4,5,8,11,12
+125,28,Female,Other,Asian or Asian British,No,PhD,7,1.5,5.5,3,6.5,Yes,No,6,Remain,3.8,0,8,5,9,11,11,13
+126,30,Female,Other,Mixed,Yes,PhD,3.5,4.5,4.5,5,6,Yes,No,7,Leave,2.8,0,8,7,4,13,11,6
+127,28,Male,EU citizen,White,No,Taught masters,7,2,7,3,6,No,No,7,Remain,3.4000001,0,8,10,7,12,11,11
+128,22,Female,Other,Asian or Asian British,Yes,Taught masters,1.5,3.5,6.5,3.5,6.5,No,No,7,Remain,3,0,13,16,13,11,16,15
+129,21,Male,British citizen,White,Yes,Undergraduate,5,2,3,5,6,Yes,No,6,Remain,3.2,0,14,,,16,,
+130,22,Female,British citizen,White,Yes,Undergraduate,7,2.5,2,4.5,5,Yes,No,7,Remain,4,0,17,17,16,18,20,18
+131,23,Female,Other,White,Yes,Taught masters,3,3,6.5,4.5,6,No,No,6,Remain,3,0,8,5,7,9,7,12
+133,18,Female,British citizen,Asian or Asian British,Yes,Undergraduate,6.5,4,4.5,4,6.5,Yes,No,7,Remain,2.8,0,10,8,9,10,7,5
+134,25,Female,British citizen,Mixed,Yes,PhD,6.5,4,6.5,4,6,Yes,No,6,Remain,4.4000001,0,9,12,15,11,16,12
+135,28,Male,Other,Asian or Asian British,No,PhD,4.5,3,6,4.5,6,No,No,7,Leave,2.5999999,0,14,15,14,14,13,14
+136,23,Female,Other,Asian or Asian British,No,Taught masters,4.5,3,4.5,5,3.5,No,No,6,Remain,3.4000001,0,5,10,9,10,8,9
+137,23,Female,EU citizen,White,No,Taught masters,2,2.5,3.5,5.5,5.5,Yes,No,7,Remain,3.5999999,0,10,12,12,12,12,12
+138,20,Female,British citizen,White,Yes,Undergraduate,6,4,3,4,3.5,Yes,No,7,Remain,3.5999999,0,8,10,5,14,12,11
+139,22,Male,British citizen,Asian or Asian British,Yes,Taught masters,6,4,6,1,6,No,No,5,Remain,2.5999999,0,4,5,4,6,4,5
+140,21,Female,British citizen,White,Yes,Undergraduate,5.5,3.5,2.5,5,6.5,No,No,6,Remain,4,0,15,14,13,10,11,12
+141,23,Female,British citizen,White,Yes,Taught masters,2.5,4,5,5.5,5,Yes,No,7,Remain,3.4000001,0,10,9,12,16,15,15
+142,20,Female,British citizen,White,Yes,Undergraduate,5,2.5,6.5,5,4.5,No,No,7,Remain,3.5999999,0,4,8,8,6,11,10
+143,20,Female,British citizen,White,Yes,Undergraduate,4.5,3,5,2.5,6,Yes,No,7,Remain,3.4000001,0,10,12,8,10,9,11
+144,18,Female,EU citizen,White,Yes,Undergraduate,4,3,3.5,5,3,Yes,No,6,Remain,3.5999999,0,7,11,7,13,16,9
+145,22,Female,British citizen,White,Yes,Undergraduate,5.5,2.5,3.5,4,5.5,Yes,No,6,Remain,4.5999999,0,8,5,4,9,4,4
+146,32,Male,EU citizen,White,No,PhD,3,3,4,6,4,Yes,Yes,6,Remain,4.4000001,0,18,18,16,16,19,15
+147,19,A gender not listed here (please specify),British citizen,White,Yes,Undergraduate,4.5,2,3,5.5,5,Yes,No,7,Remain,3.4000001,0,12,18,16,14,17,16
+148,19,Female,EU citizen,White,Yes,Undergraduate,2.5,4,6,5,4.5,No,No,7,Remain,2.8,0,13,12,14,14,14,11
+149,23,Female,EU citizen,White,No,Research masters,2.5,4.5,6,2.5,3.5,Yes,No,7,Remain,3.4000001,0,11,11,13,15,10,10
+150,20,Female,British citizen,White,Yes,Undergraduate,4,2.5,5,4.5,6,No,No,6,Remain,3,0,7,10,10,14,14,12
+151,24,Male,Other,White,Yes,Taught masters,3.5,3,2.5,4,6.5,No,No,7,Remain,3.2,0,10,10,8,10,11,11
+152,25,Male,Other,Mixed,Yes,Taught masters,4,2.5,2.5,7,4.5,Yes,No,7,Remain,3.2,0,16,17,17,19,20,18
+153,27,Female,EU citizen,White,No,PhD,1.5,4,5,6,5.5,Yes,No,7,Remain,4,0,15,14,12,14,15,8
+154,35,Male,Other,Asian or Asian British,No,PhD,4,4.5,3,2,4.5,No,No,6,Leave,2.8,0,6,8,4,10,11,7
+155,25,Female,British citizen,White,Yes,PhD,5,4,3,6.5,1,No,No,7,Remain,3.4000001,0,15,11,9,13,13,10
+156,22,Female,British citizen,White,Yes,Undergraduate,2.5,4,6,4.5,5.5,No,No,6,Remain,3.4000001,0,12,14,12,14,14,10
+157,22,Male,British citizen,White,Yes,Taught masters,4.5,4,3,5.5,4,Yes,No,5,Remain,2.8,0,15,14,8,13,16,10
+158,18,Female,Other,Mixed,Yes,Undergraduate,6,4,2,3,5,Yes,No,6,Remain,2.4000001,0,7,13,11,8,12,9
+159,20,Male,British citizen,White,Yes,Undergraduate,6,3.5,5.5,2.5,5.5,Yes,Yes,7,Remain,3,0,4,4,4,6,8,9
+160,38,Female,Other,Asian or Asian British,No,PhD,4,4,5,5,2,No,No,6,Remain,3,0,13,9,11,12,11,12
+161,27,Male,Other,Other ethnic group,No,PhD,2,4,6,3.5,4,No,No,7,Leave,2.5999999,0,5,8,8,9,8,7
+162,20,Female,British citizen,Mixed,Yes,Undergraduate,2.5,4,5.5,5.5,6,Yes,No,6,Remain,4,0,13,13,15,12,9,13
+163,22,Male,British citizen,White,Yes,Undergraduate,6.5,2,6.5,3.5,5,No,No,6,Remain,3.8,0,9,9,6,9,12,8
+164,20,Female,British citizen,White,Yes,Undergraduate,6,2,6,4,5.5,Yes,No,7,Remain,3.5999999,0,13,6,7,13,8,6
+166,21,Female,British citizen,White,Yes,Taught masters,7,2,7,5.5,5,No,No,7,Remain,4.1999998,0,9,9,8,15,14,11
+167,22,Female,British citizen,White,Yes,Undergraduate,5.5,3.5,6,4.5,5.5,Yes,No,6,Remain,4,0,8,9,5,10,16,12
+168,21,Male,British citizen,Mixed,Yes,Undergraduate,3.5,4,2.5,5,3.5,No,No,7,Remain,3.4000001,0,12,11,13,11,10,14
+169,20,Male,British citizen,White,Yes,Undergraduate,5.5,4.5,5,1,5,Yes,Yes,6,Remain,2.4000001,0,9,9,10,9,12,12
+170,18,Female,British citizen,White,Yes,Undergraduate,3,3.5,5.5,4.5,4.5,Yes,No,6,Remain,3.2,0,5,11,10,11,11,15
+171,21,Male,British citizen,Mixed,Yes,Undergraduate,6,3.5,1,3.5,4.5,Yes,No,6,Remain,3,0,10,9,10,9,6,10
+172,20,Female,British citizen,White,Yes,Undergraduate,1,3.5,4,6,3,Yes,No,6,Remain,3.8,0,14,12,4,14,16,9
+173,23,Female,British citizen,White,Yes,Undergraduate,4,2.5,5.5,6,4.5,No,No,6,Remain,3.4000001,0,13,6,8,16,15,18
+174,28,Female,Other,Mixed,No,Research masters,3,4,5,4,5,Yes,No,6,Remain,2.8,0,8,14,8,5,9,9
+175,21,Female,EU citizen,White,No,Undergraduate,3,2.5,5.5,5.5,4.5,Yes,No,6,Remain,3.8,0,12,12,13,11,10,9
+176,21,Female,British citizen,White,Yes,Undergraduate,3,4,6,4.5,3.5,Yes,No,7,Remain,3.8,0,14,15,12,12,15,12
+177,21,Female,British citizen,White,Yes,Undergraduate,6.5,2,4,6.5,6,No,No,3,Remain,3.8,0,11,12,16,15,12,17
+178,28,Female,EU citizen,White,No,PhD,5.5,2,4,5,4.5,Yes,Yes,7,Remain,3.4000001,0,9,8,7,4,8,9
+179,23,Male,British citizen,White,No,Undergraduate,3.5,2,6,4,4,Yes,No,7,Remain,3.4000001,0,8,9,5,9,10,6
+180,32,Male,EU citizen,White,No,PhD,4,4,4.5,5.5,5,Yes,No,6,Remain,3.2,0,8,15,14,10,14,13
+181,20,Male,EU citizen,White,Yes,Undergraduate,4.5,2.5,3.5,3,4,Yes,No,6,Remain,4.4000001,0,6,10,7,16,15,11
+182,19,Male,British citizen,Asian or Asian British,Yes,Undergraduate,4.5,2.5,4,2.5,6,Yes,No,7,Remain,3.8,0,7,6,5,7,5,4
+183,18,Male,Other,Asian or Asian British,No,Undergraduate,3.5,4.5,4,4,5.5,No,No,4,Remain,2.4000001,0,7,14,7,8,11,10
+184,19,Male,British citizen,White,Yes,Undergraduate,4,5.5,5,3,4.5,No,No,3,Leave,2.8,0,4,4,4,4,5,4
+185,22,Male,Other,Asian or Asian British,Yes,Undergraduate,5,5.5,5,4,4,No,No,7,Remain,3,0,5,4,8,5,4,8
+186,35,Female,Other,White,No,Research masters,4.5,3.5,3.5,2.5,4,No,No,6,Remain,3.8,0,6,7,6,8,10,10
+187,32,Female,Other,Black or Black British,Yes,Taught masters,1.5,4,6,2.5,5.5,No,No,7,Remain,2.8,0,17,18,20,12,17,17
+188,19,Male,British citizen,White,Yes,Undergraduate,7,4.5,6,6,5,No,No,6,Remain,3,0,8,7,8,8,9,8
+189,21,Female,EU citizen,White,Yes,Undergraduate,4,4,5.5,3.5,5.5,No,No,6,Remain,3.8,0,12,13,,12,13,
+190,18,Female,EU citizen,White,No,Undergraduate,5.5,3.5,4.5,4.5,6,Yes,No,6,Remain,3,0,18,,,18,,
+191,22,Male,British citizen,White,Yes,Undergraduate,6,1.5,3.5,5.5,4.5,Yes,No,7,Remain,2,0,11,10,11,11,11,11
