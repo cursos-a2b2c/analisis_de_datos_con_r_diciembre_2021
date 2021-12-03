@@ -71,10 +71,10 @@ casos_a_sacar <- which(pima_indians_diabetes_nuevas$Glucose == 0 | pima_indians_
 casos_a_sacar
 length(casos_a_sacar) #42 casos con valores faltantes
 pima_indians_diabetes_nuevas <- pima_indians_diabetes_nuevas[-casos_a_sacar, c("Pregnancies", "Glucose", "BloodPressure", 
-                                                                                "BMI", "DiabetesPedigreeFunction", "Age")] #los sacamos y ademas nos quedamos solo con las columnas de interes
+                                                                                "BMI", "DiabetesPedigreeFunction", "Age", "Class")] #los sacamos y ademas nos quedamos solo con las columnas de interes
 
 #Las estandarizamos usando la estandarizacion de los datos anteriores
-pima_indians_diabetes_nuevas_estandarizado <- scale(pima_indians_diabetes_nuevas, center = attr(pima_indians_diabetes_estandarizado, "scaled:center"), scale = attr(pima_indians_diabetes_estandarizado, "scaled:scale"))
+pima_indians_diabetes_nuevas_estandarizado <- scale(pima_indians_diabetes_nuevas[, c("Pregnancies", "Glucose", "BloodPressure", "BMI", "DiabetesPedigreeFunction", "Age")], center = attr(pima_indians_diabetes_estandarizado, "scaled:center"), scale = attr(pima_indians_diabetes_estandarizado, "scaled:scale"))
 
 #Rotamos los datos nuevos de acuerdo a lo que sale en pca
 pima_indians_diabetes_nuevas_estandarizado_pca <- predict(pca, pima_indians_diabetes_nuevas_estandarizado)
@@ -84,7 +84,14 @@ points(pima_indians_diabetes_nuevas_estandarizado_pca[, 1:2], cex = 0.9, pch = 1
 
 #Como podemos clasificarlos?
 
-abalones <- abalone
-abalones$Rings <- jitter(abalones$Rings)
-modelo <- lm(Rings ~ LongestShell, abalones)
-plot(modelo)
+#Idea! Podemos usar los vecinos más cercanos al punto para clasificar la nueva medición.
+#A los puntos que usamos para aprender el patron, se los llama "datos de entrenamiento", y se dice que entrenamos con eso un "modelo".
+#K Nearest Neighbors - K vecinos más cercanos
+#Buscamos los K vecinos más próximos a la nueva medición.
+#Cuantos vecinos tendriamos que usar?
+#Usamos la funcion knn de la libreria class
+library(class)
+clasificacion <- knn(train = pima_indians_diabetes_estandarizado, test = pima_indians_diabetes_nuevas_estandarizado, k = 3, cl = pima_indians_diabetes$Class)
+#Comparemos con lo anterior
+pima_indians_diabetes_nuevas$Class
+clasificacion
