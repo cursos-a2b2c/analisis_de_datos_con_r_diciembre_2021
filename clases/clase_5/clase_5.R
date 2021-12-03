@@ -37,17 +37,17 @@ iris_escalado
 boxplot(iris_escalado)
 
 #Hacemos PCA
-pca <- prcomp(t(iris_escalado))
+pca <- prcomp(iris_escalado)
 
 #Vemos que porcentaje de varianza explica cada nueva variable
 plot(pca$sdev/sum(pca$sdev)*100, xlab = "# variable", ylab = "Porcentaje de variable explicada")
 #Con las dos primeras variables ya explicamos mas de un 90%, asi que el grafico en dos dimensiones deberia ser bastante representativo
 
-plot(pca$rotation[, 1:2])
+plot(pca$x[, 1:2])
 #Que se observa? a que se puede deber?
 
 #Grafiquemos pero pintemos de un color distinto cada especie
-plot(pca$rotation[, 1:2], col=iris$Species)
+plot(pca$x[, 1:2], col=iris$Species)
 
 #Midamos algunas plantas nuevas, cómo podríamos clasificarlas?
 plantas_nuevas <- data.frame(Sepal.Length = c(5.7, 6, 2), Sepal.Width = c(3.2, 2.5, 4), Petal.Length = c(4, 2.5, 6), Petal.Width = c(0.8, 0.75, 2))

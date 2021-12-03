@@ -124,6 +124,9 @@ points(iris$Sepal.Length[101:150],iris$Petal.Length[101:150],col="green")
 #Coloreo por especies 
 plot(iris$Sepal.Length,iris$Petal.Length,col=iris$Species)
 
+#Y si quiero hacerlo directo desde el dataset?
+plot(Petal.Length ~Sepal.Length,data=iris,col=Species)
+
 #Y si quiero ver todos contra todos?
 
 pairs(iris,col=iris$Species)
@@ -133,16 +136,15 @@ lines(iris$Sepal.Length,type="l",col="red")
 legend("topleft",legend=c("Ancho","Longitud"),col=c("blue","red"))
 
 
+
 ### PCA ----
 
 #Vamos a cargar un nuevo tipo de archivo conocido como .Rdata
 
 load("exp_mtx.Rdata") 
 
-rownames(exp_mtx) <- c("frio_1","frio_2","control_1","control_2","frio_3","frio_4","control_3","control_4","frio_5","frio_6","control_5","control_6","frio_7","frio_8","control_7","control_8","frio_9","control_9","control_10") 
 
-save(exp_mtx,file = "Escritorio/Dia3/exp_mtx.Rdata")
-res.pca <- prcomp(exp_mtx, scale = F)
+res.pca <- prcomp(exp_mtx)
 
 rownames(exp_mtx) #Vamos a ver como renombrar los experimentos
 experimento <- c("frio","frio","control","control","frio","frio","control","control","frio","frio","control","control","frio","frio","control","control","frio","control","control") 
@@ -153,8 +155,6 @@ df <-data.frame(PC1=pc1,PC2=pc2,exp = experimento)
 df$exp <- as.factor(df$exp)
 
 plot(x=df$PC1,y=df$PC2,col=df$exp,xlab="Comp1",ylab="Comp2") #Qué se puede observar?
-legend("topleft",legend=c("Frio","Control"),col=c("blue","red"))
-
+legend("topleft",legend=c("Frio","Control"),col=c("black","red"),pch = 0.8)
 abline(h=0)
-
 #Que podemos concluir de esto?

@@ -225,3 +225,21 @@ plot(casos_de_interes$cum_conf, casos_de_interes$cum_death, main = "Casos confir
 #Si bien para valores grandes de casos parece haber una relación entre cantidad de casos y cantidad
 #de fallecimientos, no parece haber una relación inmediata entre la cantidad de casos y la cantidad
 #de fallecimientos en los casos más chicos. ¿Por qué podría estar pasando esto?
+
+
+### PCA ----
+
+data("USArrests")
+head(USArrests)
+
+#Hago un summary
+
+summary(USArrests)
+
+#Calculo PCA
+
+res.pca <- prcomp(datos, scale = TRUE)
+
+#Grafico y pongo las etiquetas
+plot(PC1 ~ PC2,data=res.pca$x)
+text(PC1 ~PC2, labels=rownames(res.pca$x),data=res.pca$x, cex=0.9, font=2)

@@ -85,13 +85,25 @@ points(pima_indians_diabetes_nuevas_estandarizado_pca[, 1:2], cex = 0.9, pch = 1
 #Como podemos clasificarlos?
 
 #Idea! Podemos usar los vecinos más cercanos al punto para clasificar la nueva medición.
-#A los puntos que usamos para aprender el patron, se los llama "datos de entrenamiento", y se dice que entrenamos con eso un "modelo".
+#A los puntos que usamos para aprender el patron, se los llama "datos de entrenamiento", y se dice que entrenamos un "modelo". Dejamos que la computadora
+#encuentre los patrones en nuestros datos que nosotros no podemos ver.
+#A los puntos que no usamos para entrenar, los llamamos "datos de validacion" y nos sirven para ver cuan bien funciona nuestro modelo.
 #K Nearest Neighbors - K vecinos más cercanos
 #Buscamos los K vecinos más próximos a la nueva medición.
 #Cuantos vecinos tendriamos que usar?
 #Usamos la funcion knn de la libreria class
 library(class)
+
 clasificacion <- knn(train = pima_indians_diabetes_estandarizado, test = pima_indians_diabetes_nuevas_estandarizado, k = 3, cl = pima_indians_diabetes$Class)
 #Comparemos con lo anterior
-pima_indians_diabetes_nuevas$Class
 clasificacion
+pima_indians_diabetes_nuevas$Class
+#Se qeuivoca en 3
+
+clasificacion <- knn(train = pima_indians_diabetes_estandarizado, test = pima_indians_diabetes_nuevas_estandarizado, k = 5, cl = pima_indians_diabetes$Class)
+#Comparemos con lo anterior
+clasificacion
+pima_indians_diabetes_nuevas$Class
+#Mejoro de k = 3
+
+#A los aciertos de nuestro modelo lo llamamos accuracy o precision
