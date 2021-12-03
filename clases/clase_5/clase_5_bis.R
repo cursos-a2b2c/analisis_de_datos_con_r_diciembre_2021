@@ -107,3 +107,49 @@ pima_indians_diabetes_nuevas$Class
 #Mejoro de k = 3
 
 #A los aciertos de nuestro modelo lo llamamos accuracy o precision
+
+
+#Veamos otro tipo de datos. Dataset trees
+#This data set provides measurements of the diameter, height and volume of 
+#timber in 31 felled black cherry trees. 
+#Note that the diameter (in inches) is erroneously labelled Girth in the data.
+#It is measured at 4 ft 6 in above the ground.
+
+#Exploremos el dataset
+View(trees)
+colnames(trees)
+head(trees)
+nrow(trees)
+plot(trees$Girth, trees$Volume)
+
+#Cómo parece ser la relación entre el diámetro y el volumen?
+#.
+#.
+#.
+#R permite ajustar un modelo lineal a los datos usando un objeto de tipo "formula"
+#Podemos hacer que dependa de todas las variables que querramos
+Volume ~ Girth + Height
+
+#E incluso usar interacción
+Volume ~ Girth*Height
+
+#Por ahora solo vamos a querer ver si Girth depende de Volume
+formula_para_ajuste <- Volume ~ Girth
+formula_para_ajuste
+
+#Ajustemos un modelo lineal
+ajuste <- lm(formula = formula_para_ajuste, data = trees)
+
+#Veamos qué devuelve el ajuste? Que es cada cosa? Que significan?
+ajuste
+summary(ajuste)
+
+#Grafiquemos todo junto
+abline(ajuste, col="red")
+
+#Ademas de modelar una relacion, podemos usar este modelo para encontrar el volumen de un arbol solamente midiendo su circunferencia 
+#Medimos la circunferencia de un nuevo árbol, que volumen esperamos que tenga?
+nuevo_arbol <- data.frame(Girth = 15)
+volumen <- predict.lm(ajuste, nuevo_arbol)
+points(nuevo_arbol$Girth[1], volumen, col="blue", pch=19)
+
