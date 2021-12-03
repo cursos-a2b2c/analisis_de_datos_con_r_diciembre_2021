@@ -1,41 +1,95 @@
-#¿Qué tienen en común estos dos clasificadores?
-#Veamos otros datasets
-#write.csv(data.frame(height = fish$height, width = fish$width), file="fish.csv", row.names = F)
-library(cluster)
+#################################################################
+#              Curso de análisis de datos con R
+#          Machine learning: aprendizaje no supervisado
+#################################################################
+#A veces queremos irnos un poco de la estadistica y hacer otro tipo de analisis.
+#En particular, nos va a interesar no solo modelar nuestros datos, sino tambien
+#poder encontrar patrones que no son obvios y poder predecir el comportamiento
+#de nuevas observaciones.
+
+#Veamos un dataset de medidas de peces. Ancho y alto (?) o largo
 fish <- read.csv("~/cursos/analisis_de_datos_con_r_diciembre_2021/clases/clase_6/fish.csv")
 plot(fish$height, fish$width)
 
-#Qué podemos decir de estos peces viendo sus medidas? cómo podemos agruparlos?
+#Qué podemos decir de estos peces viendo sus medidas? Tendran algo en comun? Hay grupos de peces?
 #.
 #.
 #.
-#Idea! un grupo o cluster es un conjunto de puntos que está más cerca entre si que del resto.
+#Idea! un grupo o cluster es un conjunto de puntos que está más cerca entre si que del resto (o algo por el estilo).
+#Pero ojo con la escala. Esta todo en la misma escala? Deberiamos pasar todo a la misma escala para que sean comparables...
+plot(fish$height, fish$width, xlim = c(10, 50), ylim = c(10, 50))
+
+fish_escaleado <- as.data.frame(scale(fish, center = T, scale = T))
+plot(fish_escaleado$height, fish_escaleado$width, xlim = c(-2, 2), ylim = c(-2, 2))
+
+#Este dataset era facil, un poco de juguete, veamos alguno mas real, con mas dimensiones
+
+mamiferos <- read.csv("~/cursos/analisis_de_datos_con_r_diciembre_2021/clases/clase_6/mamiferos.csv")
+View(mamiferos)
+nombres <- mamiferos$name #Me guardo los nombres
+mamiferos <- mamiferos[, -1] #Me quedo solo con los datos
+pairs(mamiferos) #Se ve algun patron?
+
+#Como podriamos graficar en 5 dimensiones?
+#PCA al rescate
+mamiferos.pca <- prcomp(mamiferos, center = T, scale. = T) #Centramos y escalamos para que todas las variables esten en la misma escala y dimension
+plot(mamiferos.pca$sdev/sum(mamiferos.pca$sdev)*100, xlab = "# variable", ylab = "Porcentaje de variable explicada")
+#Como explicamos alrededor de un 80% de la variabilidad con las primeras dos componentes, deberia ser una buena proyeccion de como se ven nuestros datos
+
+plot(mamiferos.pca$x[, 1:2], main = "Mamiferos")
+text(mamiferos.pca$x[, 1:2],  nombres, cex=0.65, pos=3,col="red") 
+
+#A simple vista se ven algunos grupos cuando agregamos los nombres. Con PCA proyectamos muchas dimensiones en solo dos, transformando nuestras medidas 
+#como con cualquier mapa.
+#Habra patrones en nuestros datos que no podemos ver, por nuestra incapacidad de ver mas de 3 dimensiones? O porque los espacios no siempre son tan obvios?
+
+
+
+#Volvamos al dataset de peces
+plot(fish_escaleado$height, fish_escaleado$width, xlim = c(-2, 2), ylim = c(-2, 2))
+
 #Usamos K-Means para encontrar los centros de estos grupos. Cada punto es asignado al centro más cercano
+library(cluster)
 K <- 3
-clusters <- kmeans(fish, centers = K)
+clusters <- kmeans(fish_escaleado, centers = K)
 #Veamos que devuelve kmeans.
 clusters
-plot(silhouette(clusters$cluster, dist(fish)))
+
+#Grafiquemos a que grupo quedo asignado cada punto
+points(fish_escaleado, col=c("red", "blue", "green")[clusters$cluster])
 
 #Graficamos los centros que encontró
 points(clusters$centers, col=c("red", "blue", "green"), pch = 19)
 
-#Grafiquemos a que grupo quedo asignado cada punto
-points(fish, col=c("red", "blue", "green")[clusters$cluster])
+#¿Qué onda todo esto? 
+
+#¿El K fue el correcto u otro hubiera funcionado mejor? ¿Funciono bien? ¿Como podríamos medirlo?
+#Podemos usar alguna propiedad de los grupos que sea de interés y encontrar el k que la maximice (o minimice).
+#En este caso, queremos encontrar grupos compactos, donde todos los elementos de un grupo estén lo más cerca posible de su centro. 
+#Podemos sumar las distancias de cada punto a su respectivo centro (SSE o suma de los cuadrados de los residuos)
+#y usar eso como medida.
+clusters$betweenss
+
+plot(silhouette(clusters$cluster, dist(fish_escaleado)))
+
 
 #Qué hubiera pasado si elegíamos un K diferente?
-plot(fish$height, fish$width)
+plot(fish_escaleado$height, fish_escaleado$width)
 K <- 5
-clusters <- kmeans(fish, centers = K)
+
+clusters <- kmeans(fish_escaleado, centers = K)
 #Veamos que devuelve kmeans
 clusters
-plot(silhouette(clusters$cluster, dist(fish)))
+
+#Grafiquemos a que grupo quedo asignado cada punto
+plot(fish_escaleado, col=clusters$cluster)
 
 #Graficamos los centros que encontró
 points(clusters$centers, col=1:nrow(clusters$centers), pch = 19)
 
-#Grafiquemos a que grupo quedo asignado cada punto
-points(fish, col=clusters$cluster)
+#Veamos el silhouette
+plot(silhouette(clusters$cluster, dist(fish_escaleado)))
+
 
 #Veamos otro dataset. Pokemon
 write.csv(Pokemon[, c("Name", "HP", "Attack", "Defense", "Sp..Atk", "Sp..Def", "Speed")], file="pokemon.csv", row.names = F)
