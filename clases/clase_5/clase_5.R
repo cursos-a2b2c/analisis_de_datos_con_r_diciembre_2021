@@ -1,84 +1,193 @@
 #################################################################
 #              Curso de análisis de datos con R
-#          Machine learning: aprendizaje supervisado
+#          Machine learning: aprendizaje no supervisado
 #################################################################
+#A veces queremos irnos un poco de la estadistica y hacer otro tipo de analisis.
+#En particular, nos va a interesar no solo modelar nuestros datos, sino tambien
+#poder encontrar patrones que no son obvios y poder predecir el comportamiento
+#de nuevas observaciones.
 
-#Veamos datos de iris
-#This famous (Fisher's or Anderson's) iris data set gives the measurements 
-#in centimeters of the variables sepal length and width and petal length and 
-#width, respectively, for 50 flowers from each of 3 species of iris. 
-#The species are Iris setosa, versicolor, and virginica.
+#Veamos un dataset de medidas de peces. Ancho y alto (?) o largo
+fish <- read.csv("~/cursos/analisis_de_datos_con_r_diciembre_2021/clases/clase_6/fish.csv")
+plot(fish$height, fish$width)
 
-#Exploremos el dataset
-View(iris)
-colnames(iris)
-head(iris)
-nrow(iris)
-table(iris$Species)
-summary(iris)
+#Qué podemos decir de estos peces viendo sus medidas? Tendran algo en comun? Hay grupos de peces?
+#.
+#.
+#.
+#Idea! un grupo o cluster es un conjunto de puntos que está más cerca entre si que del resto (o algo por el estilo).
+#Pero ojo con la escala. Esta todo en la misma escala? Deberiamos pasar todo a la misma escala para que sean comparables...
+plot(fish$height, fish$width, xlim = c(10, 50), ylim = c(10, 50))
 
-#Exploremos el dataset graficamente
-pairs(iris)
-#Alguna de las variables alcanza para distinguir cada especie?
+fish_escaleado <- as.data.frame(scale(fish, center = T, scale = T))
+plot(fish_escaleado$height, fish_escaleado$width, xlim = c(-2, 2), ylim = c(-2, 2))
 
-#Grafiquemos los puntos, pero tenemos 4 variables, como podemos hacer?
-#PCA!
+#Este dataset era facil, un poco de juguete, veamos alguno mas real, con mas dimensiones
 
-#Ojo que cada variable esta en una escala diferente (e incluso podrian estar en unidades diferentes m, g, s, etc).
-#Tenemos que escalear las variables para que sean comparables
-boxplot(iris[, c("Petal.Length", "Petal.Width", "Sepal.Length", "Sepal.Width")])
+mamiferos <- read.csv("~/cursos/analisis_de_datos_con_r_diciembre_2021/clases/clase_6/mamiferos.csv")
+View(mamiferos)
+nombres <- mamiferos$name #Me guardo los nombres
+mamiferos <- mamiferos[, -1] #Me quedo solo con los datos
+pairs(mamiferos) #Se ve algun patron?
 
-#resta la media para centrar y divide por el desvio estandar para que todo quede en unidades de desvio estandar
-#z = (x-media)/desvio estandar
-iris_escalado <- scale(iris[, c("Petal.Length", "Petal.Width", "Sepal.Length", "Sepal.Width")])
+#Como podriamos graficar en 5 dimensiones?
+#PCA al rescate
+mamiferos.pca <- prcomp(mamiferos, center = T, scale. = T) #Centramos y escalamos para que todas las variables esten en la misma escala y dimension
+mamiferos.pca
+plot(mamiferos.pca$sdev/sum(mamiferos.pca$sdev)*100, xlab = "# variable", ylab = "Porcentaje de variabilidad explicada", type="b")
+#Como explicamos alrededor de un 80% de la variabilidad con las primeras dos componentes, deberia ser una buena proyeccion de como se ven nuestros datos
 
-#Veamos que informacion hay en iris_escalado
-iris_escalado
-boxplot(iris_escalado)
+plot(mamiferos.pca$x[, 1:2], main = "Mamiferos")
+text(mamiferos.pca$x[, 1:2], nombres, cex=0.65, pos=3,col="red") 
 
-#Hacemos PCA
-pca <- prcomp(iris_escalado)
-
-#Vemos que porcentaje de varianza explica cada nueva variable
-plot(pca$sdev/sum(pca$sdev)*100, xlab = "# variable", ylab = "Porcentaje de variable explicada")
-#Con las dos primeras variables ya explicamos mas de un 90%, asi que el grafico en dos dimensiones deberia ser bastante representativo
-
-plot(pca$x[, 1:2])
-#Que se observa? a que se puede deber?
-
-#Grafiquemos pero pintemos de un color distinto cada especie
-plot(pca$x[, 1:2], col=iris$Species)
-
-#Midamos algunas plantas nuevas, cómo podríamos clasificarlas?
-plantas_nuevas <- data.frame(Sepal.Length = c(5.7, 6, 2), Sepal.Width = c(3.2, 2.5, 4), Petal.Length = c(4, 2.5, 6), Petal.Width = c(0.8, 0.75, 2))
-
-#No nos olvidemos de pasarlas a las escalas nuevas, usamos de nuevo scale pero con los datos que obtuvimos antes
-plantas_nuevas_escaleadas <- scale(plantas_nuevas, center = attr(iris_escalado, "scaled:center"), scale = attr(iris_escalado, "scaled:scale"))
-
-as.matrix(plantas_nuevas_escaleadas)%*%pca$x
-
-points(plantas_nuevas[, 1:2], col=c("violet", "cyan", "brown"), pch = 19)
+#A simple vista se ven algunos grupos cuando agregamos los nombres. Con PCA proyectamos muchas dimensiones en solo dos, transformando nuestras medidas 
+#como con cualquier mapa.
+#Habra patrones en nuestros datos que no podemos ver, por nuestra incapacidad de ver mas de 3 dimensiones? O porque los espacios no siempre son tan obvios?
 
 
-#Idea! Podemos usar los vecinos más cercanos al punto para clasificar la nueva medición
-#K Nearest Neighbors - K vecinos más cercanos
-#Buscamos los K vecinos más próximos a la nueva medición. Qué medida usamos?
 
-#Calculamos la distancia entre la primera planta nueva y las plantas viejas. Pero que es la distancia aca?
-distancia <- dist()
+#Volvamos al dataset de peces
+plot(fish_escaleado$height, fish_escaleado$width, xlim = c(-2, 2), ylim = c(-2, 2))
 
-#Buscamos los vecinos más próximos, para eso ordenamos las distancias de menor a mayor.
-#Qué devuelve order? cuál es la diferencia con sort?
-orden <- order(distancia, decreasing = F)
-
-#Qué falta ahora?
+#Usamos K-Means para encontrar los centros de estos grupos. Cada punto es asignado al centro más cercano
+library(cluster)
 K <- 3
+#Antes de correrlo, una pregunta conceptual: dado un conjunto de datos y un k, kmeans siempre me da lo mismo? es decir, es determinista?
+#o hay elementos aleatorios en el metodo? cual?
+#.
+#.
+#.
+#.
+#Seteamos el generador de numeros aleatorios para poder reproducir los mismos resultados en un futuro
+set.seed(1234567)
+clusters <- kmeans(fish_escaleado, centers = K)
+#Veamos que devuelve kmeans.
+clusters
 
-#Veamos a qué especies corresponden los vecinos más próximos. 
-iris$Species[orden[1:K]]
-#Cuantos vecinos tiene de cada especie
-vecinos <- table(iris$Species[orden[1:K]])
-maximo_vecinos <- which.max(vecinos)
-#A qué especie asignaríamos la nueva medición?
-especie <- names(maximo_vecinos)
-especie
+#Grafiquemos a que grupo quedo asignado cada punto
+plot(fish_escaleado, col=c("red", "blue", "green")[clusters$cluster])
+
+#Graficamos los centros que encontró
+points(clusters$centers, col=c("red", "blue", "green"), pch = 17)
+
+#¿Qué onda todo esto? 
+
+#¿El K fue el correcto u otro hubiera funcionado mejor? ¿Funciono bien? ¿Como podríamos medirlo?
+#.
+#.
+#.
+#.
+#Podemos usar alguna propiedad de los grupos que sea de interés y encontrar el k que la maximice (o minimice).
+#En este caso, queremos encontrar grupos compactos, donde todos los elementos de un grupo estén lo más cerca posible de su centro. 
+#Podemos sumar las distancias de cada punto a su respectivo centro (SSE o suma de los cuadrados de los residuos)
+#y usar eso como medida.
+clusters$withinss
+sum(clusters$withinss) #Idealmente, cuanto deberia ser la distancia? Tiene sentido eso?
+
+#Qué hubiera pasado si elegíamos un K diferente?
+plot(fish_escaleado$height, fish_escaleado$width)
+K <- 2
+
+clusters <- kmeans(fish_escaleado, centers = K)
+#Veamos que devuelve kmeans
+clusters
+
+#Grafiquemos a que grupo quedo asignado cada punto
+plot(fish_escaleado, col=clusters$cluster)
+
+#Graficamos los centros que encontró
+points(clusters$centers, col=1:nrow(clusters$centers), pch = 17)
+sum(clusters$withinss)
+
+#probemos varios k y grafiquemos
+set.seed(1234567)
+sse <- c()
+clusters <- kmeans(fish_escaleado, centers = 2)
+sse      <- c(sse, sum(clusters$withinss))
+clusters <- kmeans(fish_escaleado, centers = 3)
+sse      <- c(sse, sum(clusters$withinss))
+clusters <- kmeans(fish_escaleado, centers = 4)
+sse      <- c(sse, sum(clusters$withinss))
+clusters <- kmeans(fish_escaleado, centers = 5)
+sse      <- c(sse, sum(clusters$withinss))
+clusters <- kmeans(fish_escaleado, centers = 6)
+sse      <- c(sse, sum(clusters$withinss))
+plot(2:6, sse, type = "b", xlab = "k") #Criterio del codo
+
+#Otra forma de ver esto es usando un grafico de siluetas 
+#-------------------------Este codigo no importa!
+require(jpeg)
+img<-readJPEG("~/cursos/analisis_de_datos_con_r_diciembre_2021/clases/clase_6/sil.jpg")
+plot(1:10,ty="n", xlim = c(0, 10), ylim = c(0, 10))
+rasterImage(img,0,0,10,10)
+#-------------------------
+#Grafico un silhouette
+set.seed(1234567)
+clusters <- kmeans(fish_escaleado, centers = 3)
+plot(silhouette(clusters$cluster, dist(fish_escaleado)))
+
+clusters <- kmeans(fish_escaleado, centers = 2)
+plot(silhouette(clusters$cluster, dist(fish_escaleado)))
+
+
+#Veamos otro dataset. Pokemon
+#write.csv(Pokemon[, c("Name", "HP", "Attack", "Defense", "Sp..Atk", "Sp..Def", "Speed")], file="pokemon.csv", row.names = F)
+pokemon <- read.csv("~/cursos/analisis_de_datos_con_r_diciembre_2021/clases/clase_6/pokemon.csv")
+View(pokemon)
+#Nos quedamos con los nombres y los sacamos del dataset
+nombres <- pokemon$Name
+pokemon <- pokemon[, -1]
+
+#Grafiquemos a los pokemon. 6 variable, cómo hacemos?
+#PCA al rescate
+pokemon.pca <- prcomp(pokemon, center = T, scale. = T) #Centramos y escalamos para que todas las variables esten en la misma escala y dimension
+plot(pokemon.pca$sdev/sum(pokemon.pca$sdev)*100, xlab = "# variable", ylab = "Porcentaje de variabilidad explicada", type = "b")
+#Como explicamos alrededor de un 50% de la variabilidad con las primeras dos componentes 
+#no va a ser tan buena la proyeccion de como se ven nuestros datos pero es lo que tenemos
+#Graficamos PCA
+plot(pokemon.pca$x[, 1:2], main = "Pokemon")
+#Hay patrones en los datos? difícil de ver a simple vista.
+
+#Calculemos la distancia entre cada uno y veamos si podemos ordenarlos en un arbol
+pokemon_escaleado <- as.data.frame(scale(pokemon, center = T, scale = T)) #Recuerden escalear!
+?dist
+distancia    <- dist(pokemon_escaleado, method = "euclidean")
+?hclust
+dendrograma  <- hclust(distancia, method = "complete")
+
+#Pagina con buena data para hacer lindos dendrogramas
+#http://www.sthda.com/english/wiki/beautiful-dendrogram-visualizations-in-r-5-must-known-methods-unsupervised-machine-learning
+
+plot(dendrograma, labels = nombres[dendrograma$order])
+#Sacamos los labels
+plot(dendrograma, hang = -1, labels = F)
+
+#Como encontramos los clusters? Hay que cortar en algún lado!
+abline(h = 6.5, col = "red")
+clusters <- cutree(dendrograma, h = 6.5)
+clusters
+table(clusters)
+
+plot(silhouette(clusters, distancia))
+nombres[clusters == 4]
+nombres[clusters == 1]
+
+#Estamos en distintas escalas, podemos iterar
+pokemon_normales <- pokemon_escaleado[clusters == 1, ]
+nombres_normales <- nombres[clusters == 1]
+distancia    <- dist(pokemon_normales, method = "euclidean")
+dendrograma  <- hclust(distancia, method = "complete")
+plot(dendrograma, labels = F, hang = -1)
+
+#Cortamos
+abline(h = 3.8, col = "red")
+clusters_normales <- cutree(dendrograma, h = 3.8)
+table(clusters_normales)
+#Vemos que hay
+nombres_normales[clusters_normales == 6]
+nombres_normales[clusters_normales == 1]
+
+#Siempre lo mas interesante es ver que queda en los grupos y tratar de encontrarles un sentido biologico, fisico o lo que fuere
+
+#Existen otros algoritmos de clusterizacion que miden otras cosas, como por ejemplo, dbscan. En general, cuanto mas complejos
+#los algoritmos, mas parametros tienen y mas decisiones tenemos que tomar. Exploren!
