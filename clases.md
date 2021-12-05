@@ -34,7 +34,7 @@
 * [Práctica resuelta](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_4/solucion_practica_dia_4.R)    
 * [Script de R](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_4/dia_4.R)  
 * [Datasets (descomprimir en la misma carpeta)](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_4/datasets.zip)  
-* [Presentación](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_4/dia_4.pdf)  
+* [Presentación](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_4/clase_4_presentacion.pdf)  
 
 ### Clase 5: Introducción a Machine learning: aprendizaje no supervisado.
 * [Práctica](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_5/clase_5_practica.pdf)  
