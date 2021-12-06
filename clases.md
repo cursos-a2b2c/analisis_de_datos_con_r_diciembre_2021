@@ -29,6 +29,8 @@
 * [Dataset2](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_3/antropometria.csv)
 * [Dataset Covid](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_3/datasets_covid.zip)
 * [Presentación](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_3/Dia3.pdf)  
+* [Segunda parte clase 3, primera parte clase 4 y practica 3](https://youtu.be/y_1Tgj6PqAg)
+
 
 ### Clase 4: Breve introducción a las pruebas de hipótesis (con R).
 * [Práctica](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_4/practica_dia_4.pdf)  

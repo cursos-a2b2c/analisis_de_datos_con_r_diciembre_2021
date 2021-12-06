@@ -21,6 +21,7 @@
 
 #R tiene una funcion que nos devuelve esta probabilidad
 dbinom(x = 1, size = 1, prob = 0.5) #¿Que esperamos que de?
+dbinom(x = 0, size = 1, prob = 0.5) #¿Que esperamos que de?
 
 cuantos_machos         <- c(0, 1, 2)
 probabilidad_de_machos <- dbinom(x = cuantos_machos, size = 2, prob = 0.5) #¿Que esperamos que de?
