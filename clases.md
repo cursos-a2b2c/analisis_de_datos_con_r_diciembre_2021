@@ -14,7 +14,7 @@
 * [Cuadernillo](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_2/curso_r_dia2.Rmd)  
 * [Datasets (descomprimir en la misma carpeta)](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_2/datasets.zip)  
 * [Clase grabada y mitad de la 3](https://youtu.be/dgJLgm0M0UY)
-* [Práctica grabada](https://youtu.be/Z8RZSLS61d8)  
+* [Práctica grabada](https://youtu.be/ZKEfbxptDxA)  
 
 ### Clase 2 bonus (para leer por su cuenta): For, if y definir nuestrar propias funciones
 * [Script de R](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_2/dia_bonus.R)  
@@ -27,6 +27,7 @@
 * [Script de R](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_3/Dia3.R)  
 * [Dataset1](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_3/exp_mtx.Rdata)
 * [Dataset2](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_3/antropometria.csv)
+* [Dataset Covid](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_3/datasets_covid.zip)
 * [Presentación](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_3/Dia3.pdf)  
 
 ### Clase 4: Breve introducción a las pruebas de hipótesis (con R).
