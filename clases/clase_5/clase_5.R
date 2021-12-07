@@ -8,7 +8,7 @@
 #de nuevas observaciones.
 
 #Veamos un dataset de medidas de peces. Ancho y alto (?) o largo
-fish <- read.csv("~/cursos/analisis_de_datos_con_r_diciembre_2021/clases/clase_5/fish.csv")
+fish <- read.csv("fish.csv")
 plot(fish$height, fish$width)
 
 #Qué podemos decir de estos peces viendo sus medidas? Tendran algo en comun? Hay grupos de peces?
@@ -24,7 +24,7 @@ plot(fish_escaleado$height, fish_escaleado$width, xlim = c(-2, 2), ylim = c(-2, 
 
 #Este dataset era facil, un poco de juguete, veamos alguno mas real, con mas dimensiones
 
-mamiferos <- read.csv("~/cursos/analisis_de_datos_con_r_diciembre_2021/clases/clase_5/mamiferos.csv")
+mamiferos <- read.csv("mamiferos.csv")
 View(mamiferos)
 nombres <- mamiferos$name #Me guardo los nombres
 mamiferos <- mamiferos[, -1] #Me quedo solo con los datos
@@ -117,7 +117,7 @@ plot(2:6, sse, type = "b", xlab = "k") #Criterio del codo
 #Otra forma de ver esto es usando un grafico de siluetas 
 #-------------------------Este codigo no importa!
 require(jpeg)
-img<-readJPEG("~/cursos/analisis_de_datos_con_r_diciembre_2021/clases/clase_5/sil.jpg")
+img<-readJPEG("sil.jpg")
 plot(1:10,ty="n", xlim = c(0, 10), ylim = c(0, 10))
 rasterImage(img,0,0,10,10)
 #-------------------------

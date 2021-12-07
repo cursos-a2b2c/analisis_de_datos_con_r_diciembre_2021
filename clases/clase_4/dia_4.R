@@ -95,6 +95,10 @@ binom.test(34, 96, p = 0.5, "two.sided") #a dos colas
 #En el texto nos cuentan que hicieron un ensayo doble ciego con 21977 adultos, de los cuales 16501 fueron vacunados con la sputnik y 5476 recibieron placebo.
 #Luego de 21 días, de 14964 participantes vacunados, 16 contrajeron COVID-19, mientras que de 4902 del grupo placebo, 62 lo contrajeron.  
 #Carguemos la tabla de pacientes
+
+#H0: los dos grupos son iguales, no hay relacion entre las variables
+#H1: los dos grupos no son iguales, hay relacion entre las variables
+
 pacientes <- read.table(file = "sputnik.txt", sep = "\t", header = T)
 head(pacientes)
 View(pacientes)
@@ -114,7 +118,7 @@ table(pacientes$tratado, pacientes$infectado)
 #H0: Las dos variables son independientes
 #H1: Las dos variables no son independientes
 
-chisq.test(pacientes$tratado, pacientes$infectado, correct=FALSE)
+chisq.test(pacientes$tratado, pacientes$infectado, correct=FALSE) #Si da < 0.05 rechazamos la hipotesis nula
 #Descartamos que sea independiente la infección de la vacuna.
 
 
@@ -147,6 +151,7 @@ t.test(ratoncitos$weight, alternative = "greater", mu = 19)
 plantas <- datasets::PlantGrowth
 View(plantas)
 #Veamos como se distribuyen las plantas dentro de cada grupo
+weight ~ group
 boxplot(weight ~ group, data = plantas)
 
 #Para testear que las dos varianzas sean iguales (homogeneidad de varianzas) podemos usar el test de bartlett.
@@ -156,9 +161,14 @@ bartlett.test(list(plantas$weight[plantas$group == "ctrl"], plantas$weight[plant
 bartlett.test(list(plantas$weight[plantas$group == "ctrl"], plantas$weight[plantas$group == "trt2"]))
 
 #Para testear que cada variable sea normal
+#H0: Los datos son normales
+#H1: Los datos no son normales
 shapiro.test(plantas$weight[plantas$group == "ctrl"])
 shapiro.test(plantas$weight[plantas$group == "trt1"])
 shapiro.test(plantas$weight[plantas$group == "trt2"])
+
+shapiro.test(rnorm(100, mean = 5, sd = 3))
+shapiro.test(runif(100, min = 2, max = 4))
 
 #Ahora si, podemos usar el t test de dos muestras
 #H0: las medias de los dos grupos son iguales
@@ -166,6 +176,7 @@ shapiro.test(plantas$weight[plantas$group == "trt2"])
 
 t.test(plantas$weight[plantas$group == "ctrl"], plantas$weight[plantas$group == "trt1"], var.equal = TRUE)
 t.test(plantas$weight[plantas$group == "ctrl"], plantas$weight[plantas$group == "trt2"], var.equal = TRUE)
+t.test(plantas$weight[plantas$group == "trt1"], plantas$weight[plantas$group == "trt2"], var.equal = TRUE)
 
 #¿Qué pasa si nuestros datos no cumplen homogeneidad de varianza?
 #Veamos los datos de iris
@@ -176,6 +187,8 @@ shapiro.test(iris$Sepal.Length[iris$Species == "setosa"])
 shapiro.test(iris$Sepal.Length[iris$Species == "versicolor"])
 
 #Veamos si cumplen homogeneidad de varianza
+#H0: Los datos tienen igual varianza
+#H1: Los datos no tienen igual varianza
 bartlett.test(list(iris$Sepal.Length[iris$Species == "setosa"], iris$Sepal.Length[iris$Species == "versicolor"]))
 
 #Ups! Qué podemos hacer? Usar el test de welch, que testea lo mismo que un t-test pero soporta varianzas distintas
@@ -206,12 +219,15 @@ var(mejillones$Aam[mejillones$Location == "Petersburg"])
 var(mejillones$Aam[mejillones$Location == "Tillamook"])
 
 #Son practicamente iguales, podemos usar anova
-summary(aov(Aam ~ Location, mejillones[mejillones$Location ]))
+aov(Aam ~ Location, mejillones)
+summary(aov(Aam ~ Location, mejillones))
+
+
+#Tukey para ver cuales son los diferentes
 
 #Hay muchisimos tests para muchisimos casos distintos, les recomendamos fuertemente que lean
 #McDonald J. (2014). HANDBOOK OF BIOLOGICAL STATISTICS, SPARKY HOUSE PUBLISHING. (http://www.biostathandbook.com/HandbookBioStatThird.pdf)
 #Esta online y es gratuito, junto con como realizar los distintos tests en r
 #Mangiafico S. (2015), AN R COMPANION FOR THE HANDBOOK OF BIOLOGICAL STATISTICS, New Brunswick, Rutgers University (http://rcompanion.org/documents/RCompanionBioStatistics.pdf)
-
 
 
