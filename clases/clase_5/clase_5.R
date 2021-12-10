@@ -132,7 +132,7 @@ plot(silhouette(clusters$cluster, dist(fish_escaleado)))
 
 #Veamos otro dataset. Pokemon
 #write.csv(Pokemon[, c("Name", "HP", "Attack", "Defense", "Sp..Atk", "Sp..Def", "Speed")], file="pokemon.csv", row.names = F)
-pokemon <- read.csv("~/cursos/analisis_de_datos_con_r_diciembre_2021/clases/clase_5/pokemon.csv")
+pokemon <- read.csv("pokemon.csv")
 View(pokemon)
 #Nos quedamos con los nombres y los sacamos del dataset
 nombres <- pokemon$Name
@@ -159,6 +159,7 @@ dendrograma  <- hclust(distancia, method = "complete")
 #http://www.sthda.com/english/wiki/beautiful-dendrogram-visualizations-in-r-5-must-known-methods-unsupervised-machine-learning
 
 plot(dendrograma, labels = nombres[dendrograma$order])
+
 #Sacamos los labels
 plot(dendrograma, hang = -1, labels = F)
 

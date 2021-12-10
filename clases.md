@@ -47,7 +47,9 @@
 * [Presentación](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_5/clase_5_presentacion.pdf)  
 * [Clase 4 y Clase 5](https://youtu.be/TvXX22lXJwg)
 * [Practica 4](https://youtu.be/5v86VVbyFkk)
+* [Clase 5, Clase 6 y análisis de datos de los compañeros del curso](https://youtu.be/z-brFanXWrc)
 
 ### Clase 6: Introducción a Machine learning: aprendizaje supervisado.
 * [Script de R](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_6/clase_6.R)  
 * [Datasets (descomprimir en la misma carpeta)](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_6/datasets.zip)  
+* [Pequeño script para analizar datos de RNA-seq con edgeR](https://cursos-a2b2c.github.io/analisis_de_datos_con_r_diciembre_2021/clases/clase_6/rnaseq.R)
